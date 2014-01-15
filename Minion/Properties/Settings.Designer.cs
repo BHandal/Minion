@@ -169,42 +169,6 @@ namespace Minion.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string variant_regions {
-            get {
-                return ((string)(this["variant_regions"]));
-            }
-            set {
-                this["variant_regions"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string validate_regions {
-            get {
-                return ((string)(this["validate_regions"]));
-            }
-            set {
-                this["validate_regions"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string validate_variants {
-            get {
-                return ((string)(this["validate_variants"]));
-            }
-            set {
-                this["validate_variants"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool recalibrate {
             get {
@@ -229,97 +193,61 @@ namespace Minion.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string realign_choice {
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool tophat {
             get {
-                return ((string)(this["realign_choice"]));
+                return ((bool)(this["tophat"]));
             }
             set {
-                this["realign_choice"] = value;
+                this["tophat"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool mark_duplicates {
+        public bool tophat_fusion {
             get {
-                return ((bool)(this["mark_duplicates"]));
+                return ((bool)(this["tophat_fusion"]));
             }
             set {
-                this["mark_duplicates"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string duplicate_choice {
-            get {
-                return ((string)(this["duplicate_choice"]));
-            }
-            set {
-                this["duplicate_choice"] = value;
+                this["tophat_fusion"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool rna_seq {
+        public bool breakdancer {
             get {
-                return ((bool)(this["rna_seq"]));
+                return ((bool)(this["breakdancer"]));
             }
             set {
-                this["rna_seq"] = value;
+                this["breakdancer"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool fusion {
+        public bool cnvseq {
             get {
-                return ((bool)(this["fusion"]));
+                return ((bool)(this["cnvseq"]));
             }
             set {
-                this["fusion"] = value;
+                this["cnvseq"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool translocations {
+        public bool pindel {
             get {
-                return ((bool)(this["translocations"]));
+                return ((bool)(this["pindel"]));
             }
             set {
-                this["translocations"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool cnv {
-            get {
-                return ((bool)(this["cnv"]));
-            }
-            set {
-                this["cnv"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool indels {
-            get {
-                return ((bool)(this["indels"]));
-            }
-            set {
-                this["indels"] = value;
+                this["pindel"] = value;
             }
         }
     }

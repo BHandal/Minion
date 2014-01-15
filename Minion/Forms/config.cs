@@ -73,7 +73,7 @@ namespace Minion.Forms
             {
                 config_tree.Nodes["run"].Nodes["run_name"].Nodes["variant_calling"].Nodes["caller"].Nodes.Add("caller_name", Properties.Settings.Default.variant_caller).NodeFont = new Font(config_tree.Font, FontStyle.Bold);
 
-                if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.variant_regions) || !String.IsNullOrWhiteSpace(Properties.Settings.Default.validate_variants) || !String.IsNullOrWhiteSpace(Properties.Settings.Default.validate_regions))
+                /*if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.variant_regions) || !String.IsNullOrWhiteSpace(Properties.Settings.Default.validate_variants) || !String.IsNullOrWhiteSpace(Properties.Settings.Default.validate_regions))
                 {
                     config_tree.Nodes["run"].Nodes["run_name"].Nodes["variant_calling"].Nodes.Add("files", "Files");
                     if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.variant_regions))
@@ -88,7 +88,7 @@ namespace Minion.Forms
                     {
                         config_tree.Nodes["run"].Nodes["run_name"].Nodes["variant_calling"].Nodes["files"].Nodes.Add(global.val_var_file_name);
                     }
-                }
+                }*/
                 if (Properties.Settings.Default.recalibrate)
                 {
                     config_tree.Nodes["run"].Nodes["run_name"].Nodes["variant_calling"].Nodes.Add("recalibrate", "Recalibrate");
@@ -97,42 +97,29 @@ namespace Minion.Forms
                 {
                     config_tree.Nodes["run"].Nodes["run_name"].Nodes["variant_calling"].Nodes.Add("realign", "Realign");
 
-                    if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.realign_choice))
-                    {
-                        config_tree.Nodes["run"].Nodes["run_name"].Nodes["variant_calling"].Nodes["realign"].Nodes.Add("realign_choice", Properties.Settings.Default.realign_choice);
-                    }
-                }
-                if (Properties.Settings.Default.mark_duplicates)
-                {
-                    config_tree.Nodes["run"].Nodes["run_name"].Nodes["variant_calling"].Nodes.Add("mark_duplicates", "Mark duplicates");
-
-                    if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.duplicate_choice))
-                    {
-                        config_tree.Nodes["run"].Nodes["run_name"].Nodes["variant_calling"].Nodes["mark_duplicates"].Nodes.Add("duplicate_choice", Properties.Settings.Default.duplicate_choice);
-                    }
                 }
 
             #endregion
 
                 #region misc
                 config_tree.Nodes["run"].Nodes["run_name"].Nodes["variant_calling"].Nodes.Add("misc", "Misc.");
-                if (Properties.Settings.Default.rna_seq)
+                if (Properties.Settings.Default.tophat)
                 {
                     config_tree.Nodes["run"].Nodes["run_name"].Nodes["variant_calling"].Nodes["misc"].Nodes.Add("rna_seq", "RNA-Seq analysis");
                 }
-                if (Properties.Settings.Default.fusion)
+                if (Properties.Settings.Default.tophat_fusion)
                 {
                     config_tree.Nodes["run"].Nodes["run_name"].Nodes["variant_calling"].Nodes["misc"].Nodes.Add("fusion", "Fusion analysis");
                 }
-                if (Properties.Settings.Default.cnv)
+                if (Properties.Settings.Default.cnvseq)
                 {
                     config_tree.Nodes["run"].Nodes["run_name"].Nodes["variant_calling"].Nodes["misc"].Nodes.Add("cnv", "CNV analysis");
                 }
-                if (Properties.Settings.Default.translocations)
+                if (Properties.Settings.Default.breakdancer)
                 {
                     config_tree.Nodes["run"].Nodes["run_name"].Nodes["variant_calling"].Nodes["misc"].Nodes.Add("translocations", "Translocation analysis");
                 }
-                if (Properties.Settings.Default.indels)
+                if (Properties.Settings.Default.pindel)
                 {
                     config_tree.Nodes["run"].Nodes["run_name"].Nodes["variant_calling"].Nodes["misc"].Nodes.Add("indels", "Indel analysis");
                 }

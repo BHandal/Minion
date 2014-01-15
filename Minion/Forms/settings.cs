@@ -32,21 +32,15 @@ namespace Minion.Forms
 
             //variant calling
             Properties.Settings.Default.variant_caller = String.Empty;
-            Properties.Settings.Default.variant_regions = String.Empty;
-            Properties.Settings.Default.validate_variants = String.Empty;
-            Properties.Settings.Default.validate_regions = String.Empty;
             Properties.Settings.Default.recalibrate = false;
             Properties.Settings.Default.realign = false;
-            Properties.Settings.Default.realign_choice = String.Empty;
-            Properties.Settings.Default.mark_duplicates = false;
-            Properties.Settings.Default.duplicate_choice = String.Empty;
 
             //more
-            Properties.Settings.Default.rna_seq = false;
-            Properties.Settings.Default.fusion = false;
-            Properties.Settings.Default.cnv = false;
-            Properties.Settings.Default.translocations = false;
-            Properties.Settings.Default.indels = false;
+            Properties.Settings.Default.tophat = false;
+            Properties.Settings.Default.tophat_fusion = false;
+            Properties.Settings.Default.cnvseq = false;
+            Properties.Settings.Default.breakdancer = false;
+            Properties.Settings.Default.pindel = false;
 
             Minion.Properties.Settings.Default.Save();
         }
@@ -73,21 +67,15 @@ namespace Minion.Forms
             
             //variant calling
             variant_caller.Text = Properties.Settings.Default.variant_caller;
-            var_reg_textBox.Text = Properties.Settings.Default.variant_regions;
-            val_var_textBox.Text = Properties.Settings.Default.validate_variants;
-            val_reg_textBox.Text = Properties.Settings.Default.validate_regions;
             recalibrate.Checked = Properties.Settings.Default.recalibrate;
             realign.Checked = Properties.Settings.Default.realign;
-            realign_choice.Text = Properties.Settings.Default.realign_choice;
-            duplicates.Checked = Properties.Settings.Default.mark_duplicates;
-            duplicate_choice.Text = Properties.Settings.Default.duplicate_choice;
 
             //more
-            rna_seq.Checked = Properties.Settings.Default.rna_seq;
-            fusion.Checked = Properties.Settings.Default.fusion;
-            cnv.Checked = Properties.Settings.Default.cnv;
-            translocations.Checked = Properties.Settings.Default.translocations;
-            indels.Checked = Properties.Settings.Default.indels;
+            rna_seq.Checked = Properties.Settings.Default.tophat;
+            fusion.Checked = Properties.Settings.Default.tophat_fusion;
+            cnv.Checked = Properties.Settings.Default.cnvseq;
+            translocations.Checked = Properties.Settings.Default.breakdancer;
+            indels.Checked = Properties.Settings.Default.pindel;
         }
 
         #region Buttons
@@ -154,20 +142,6 @@ namespace Minion.Forms
                     errors.Add("Missing reverse adapter");
                 }
             }
-            if (realign.Checked)
-            {
-                if (realign_choice.SelectedIndex < 0)
-                {
-                    errors.Add("Select realignment tool");
-                }
-            }
-            if (duplicates.Checked)
-            {
-                if (duplicate_choice.SelectedIndex < 0)
-                {
-                    errors.Add("Select duplicate tool");
-                }
-            }
 
             if (errors.Count > 0)
             {
@@ -204,27 +178,15 @@ namespace Minion.Forms
                 {
                     Properties.Settings.Default.variant_caller = variant_caller.Text.ToString().ToLower();
                 }
-                Properties.Settings.Default.variant_regions = var_reg_textBox.Text;
-                Properties.Settings.Default.validate_variants = val_var_textBox.Text;
-                Properties.Settings.Default.validate_regions = val_reg_textBox.Text;
                 Properties.Settings.Default.recalibrate = recalibrate.Checked;
                 Properties.Settings.Default.realign = realign.Checked;
-                if (realign_choice.SelectedIndex > -1)
-                {
-                    Properties.Settings.Default.realign_choice = realign_choice.Text.ToString().ToLower();
-                }
-                Properties.Settings.Default.mark_duplicates = duplicates.Checked;
-                if (duplicate_choice.SelectedIndex > -1)
-                {
-                    Properties.Settings.Default.duplicate_choice = duplicate_choice.Text.ToString().ToLower();
-                }
 
                 //more
-                Properties.Settings.Default.rna_seq = rna_seq.Checked;
-                Properties.Settings.Default.fusion = fusion.Checked;
-                Properties.Settings.Default.cnv = cnv.Checked;
-                Properties.Settings.Default.translocations = translocations.Checked;
-                Properties.Settings.Default.indels = indels.Checked;
+                Properties.Settings.Default.tophat = rna_seq.Checked;
+                Properties.Settings.Default.tophat_fusion = fusion.Checked;
+                Properties.Settings.Default.cnvseq = cnv.Checked;
+                Properties.Settings.Default.breakdancer = translocations.Checked;
+                Properties.Settings.Default.pindel = indels.Checked;
                               
                 config cf = new config();
                 cf.ShowDialog();
@@ -234,34 +196,25 @@ namespace Minion.Forms
         private void align_next_Click(object sender, EventArgs e)
         {
             variant_panel.Visible = false;
-            more_panel.Visible = false;
             align_panel.Visible = true;
 
         }
         private void variant_next_Click(object sender, EventArgs e)
         {
             variant_panel.Visible = true;
-            more_panel.Visible = false;
             align_panel.Visible = false;
         }
         private void align_next2_Click(object sender, EventArgs e)
         {
             variant_panel.Visible = false;
-            more_panel.Visible = false;
             align_panel.Visible = true;
-        }
-        private void more_next_Click(object sender, EventArgs e)
-        {
-            more_panel.Visible = true;
-            more_panel.BringToFront();
         }
         private void variant_next2_Click(object sender, EventArgs e)
         {
             variant_panel.Visible = true;
-            more_panel.Visible = false;
             align_panel.Visible = false;
         }
-        private void val_var_browser_Click(object sender, EventArgs e)
+        /*private void val_var_browser_Click(object sender, EventArgs e)
         {
             ofd.Filter = "VCF|*.vcf";
             if (ofd.ShowDialog() == DialogResult.OK)
@@ -288,7 +241,7 @@ namespace Minion.Forms
                 var_reg_textBox.Text = ofd.FileName;
                 global.var_reg_file_name = ofd.SafeFileName;
             }
-        }
+        }*/
         #endregion
 
         #region index changes
@@ -395,13 +348,6 @@ namespace Minion.Forms
                         ((TextBox)c).Enabled = true;
                     }
                 }
-                foreach (Control c in more_panel.Controls)
-                {
-                    if (c is CheckBox)
-                    {
-                        ((CheckBox)c).Enabled = true;
-                    }
-                }
             }
             else
             {
@@ -421,21 +367,7 @@ namespace Minion.Forms
                         ((TextBox)c).Enabled = false;
                     }
                 }
-                foreach (Control c in more_panel.Controls)
-                {
-                    if (c is CheckBox)
-                    {
-                        ((CheckBox)c).Enabled = false;
-                        ((CheckBox)c).Checked = false;
-                    }
-                }
             }
-
-            align_next2.Enabled = true;
-            more_next.Enabled = true;
-            less_next.Enabled = true;
-            val_reg_browser.Enabled = false;
-            val_reg_textBox.Enabled = false;
 
         }
         #endregion
@@ -456,32 +388,7 @@ namespace Minion.Forms
             }
         }
 
-        private void realign_CheckedChanged(object sender, EventArgs e)
-        {
-            if (realign.Checked)
-            {
-                realign_choice.Enabled = true;
-            }
-            else realign_choice.Enabled = false;
-        }
 
-        private void duplicates_CheckedChanged(object sender, EventArgs e)
-        {
-            if (duplicates.Checked)
-            {
-                duplicate_choice.Enabled = true;
-            }
-            else duplicate_choice.Enabled = false;
-        }
-
-        private void val_var_textBox_TextChanged(object sender, EventArgs e)
-        {
-            if (!String.IsNullOrWhiteSpace(val_reg_textBox.Text))
-            {
-                val_reg_browser.Enabled = true;
-                val_reg_textBox.Enabled = true;
-            }
-        }
         #endregion
     }
 }

@@ -31,6 +31,8 @@ namespace Minion.Forms
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(main));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -70,6 +72,10 @@ namespace Minion.Forms
             this.ExecuteButton = new System.Windows.Forms.Button();
             this.runs_label = new System.Windows.Forms.Label();
             this.WorkflowPanel = new System.Windows.Forms.TabControl();
+            this.TrackTab = new System.Windows.Forms.TabPage();
+            this.limsView = new System.Windows.Forms.DataGridView();
+            this.sample_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sample_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.status = new System.Windows.Forms.ToolStripStatusLabel();
             this.TimeOfDay = new System.Windows.Forms.Label();
@@ -84,6 +90,8 @@ namespace Minion.Forms
             ((System.ComponentModel.ISupportInitialize)(this.history)).BeginInit();
             this.AnalysisTab.SuspendLayout();
             this.WorkflowPanel.SuspendLayout();
+            this.TrackTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.limsView)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -230,7 +238,7 @@ namespace Minion.Forms
             this.ConnectionGroup.Controls.Add(this.label4);
             this.ConnectionGroup.Controls.Add(this.pwdBox);
             this.ConnectionGroup.Controls.Add(this.SaveIPButton);
-            this.ConnectionGroup.Font = new System.Drawing.Font("Segoe UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ConnectionGroup.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ConnectionGroup.Location = new System.Drawing.Point(12, 37);
             this.ConnectionGroup.Name = "ConnectionGroup";
             this.ConnectionGroup.Size = new System.Drawing.Size(384, 130);
@@ -353,7 +361,7 @@ namespace Minion.Forms
             this.statusGroup.Controls.Add(this.DisconnectBtn);
             this.statusGroup.Controls.Add(this.Disconnected);
             this.statusGroup.Controls.Add(this.Connected);
-            this.statusGroup.Font = new System.Drawing.Font("Segoe UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.statusGroup.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.statusGroup.Location = new System.Drawing.Point(514, 37);
             this.statusGroup.Name = "statusGroup";
             this.statusGroup.Size = new System.Drawing.Size(200, 130);
@@ -426,7 +434,7 @@ namespace Minion.Forms
             // HistoryTab
             // 
             this.HistoryTab.Controls.Add(this.history);
-            this.HistoryTab.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.HistoryTab.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.HistoryTab.Location = new System.Drawing.Point(4, 26);
             this.HistoryTab.Name = "HistoryTab";
             this.HistoryTab.Padding = new System.Windows.Forms.Padding(3);
@@ -440,8 +448,8 @@ namespace Minion.Forms
             this.history.AllowUserToAddRows = false;
             this.history.AllowUserToDeleteRows = false;
             this.history.AllowUserToResizeRows = false;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.history.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.history.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.history.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.history.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.history.BackgroundColor = System.Drawing.SystemColors.Window;
@@ -455,9 +463,9 @@ namespace Minion.Forms
             this.history.Name = "history";
             this.history.ReadOnly = true;
             this.history.RowHeadersVisible = false;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.history.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.history.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.history.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.history.Size = new System.Drawing.Size(688, 342);
             this.history.TabIndex = 25;
@@ -472,7 +480,7 @@ namespace Minion.Forms
             this.AnalysisTab.Controls.Add(this.ExecuteButton);
             this.AnalysisTab.Controls.Add(this.runs_label);
             this.AnalysisTab.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.AnalysisTab.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AnalysisTab.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AnalysisTab.Location = new System.Drawing.Point(4, 26);
             this.AnalysisTab.Name = "AnalysisTab";
             this.AnalysisTab.Padding = new System.Windows.Forms.Padding(3);
@@ -485,10 +493,10 @@ namespace Minion.Forms
             // 
             this.count_label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.count_label.AutoSize = true;
-            this.count_label.Font = new System.Drawing.Font("Segoe UI Light", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.count_label.Location = new System.Drawing.Point(500, 9);
+            this.count_label.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.count_label.Location = new System.Drawing.Point(494, 7);
             this.count_label.Name = "count_label";
-            this.count_label.Size = new System.Drawing.Size(49, 15);
+            this.count_label.Size = new System.Drawing.Size(56, 17);
             this.count_label.TabIndex = 38;
             this.count_label.Text = "Count: 0";
             // 
@@ -499,7 +507,7 @@ namespace Minion.Forms
             | System.Windows.Forms.AnchorStyles.Right)));
             this.terminal.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.terminal.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.terminal.ForeColor = System.Drawing.Color.Turquoise;
+            this.terminal.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.terminal.Location = new System.Drawing.Point(6, 58);
             this.terminal.Name = "terminal";
             this.terminal.ReadOnly = true;
@@ -543,12 +551,12 @@ namespace Minion.Forms
             // runs_label
             // 
             this.runs_label.AutoSize = true;
-            this.runs_label.Font = new System.Drawing.Font("Segoe UI Light", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.runs_label.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.runs_label.Location = new System.Drawing.Point(6, 3);
             this.runs_label.Name = "runs_label";
-            this.runs_label.Size = new System.Drawing.Size(43, 21);
+            this.runs_label.Size = new System.Drawing.Size(52, 21);
             this.runs_label.TabIndex = 7;
-            this.runs_label.Text = "Runs";
+            this.runs_label.Text = "RUNS";
             // 
             // WorkflowPanel
             // 
@@ -556,13 +564,69 @@ namespace Minion.Forms
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.WorkflowPanel.Controls.Add(this.AnalysisTab);
+            this.WorkflowPanel.Controls.Add(this.TrackTab);
             this.WorkflowPanel.Controls.Add(this.HistoryTab);
-            this.WorkflowPanel.Font = new System.Drawing.Font("Segoe UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.WorkflowPanel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.WorkflowPanel.Location = new System.Drawing.Point(12, 173);
             this.WorkflowPanel.Name = "WorkflowPanel";
             this.WorkflowPanel.SelectedIndex = 0;
             this.WorkflowPanel.Size = new System.Drawing.Size(702, 378);
             this.WorkflowPanel.TabIndex = 24;
+            // 
+            // TrackTab
+            // 
+            this.TrackTab.Controls.Add(this.limsView);
+            this.TrackTab.Location = new System.Drawing.Point(4, 26);
+            this.TrackTab.Name = "TrackTab";
+            this.TrackTab.Padding = new System.Windows.Forms.Padding(3);
+            this.TrackTab.Size = new System.Drawing.Size(694, 348);
+            this.TrackTab.TabIndex = 3;
+            this.TrackTab.Text = "TRACKING";
+            this.TrackTab.UseVisualStyleBackColor = true;
+            // 
+            // limsView
+            // 
+            this.limsView.AllowUserToAddRows = false;
+            this.limsView.AllowUserToDeleteRows = false;
+            this.limsView.AllowUserToResizeRows = false;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.WhiteSmoke;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.limsView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            this.limsView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.limsView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.limsView.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.limsView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.limsView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.limsView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.limsView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.sample_name,
+            this.sample_status});
+            this.limsView.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.limsView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.limsView.Location = new System.Drawing.Point(3, 3);
+            this.limsView.MultiSelect = false;
+            this.limsView.Name = "limsView";
+            this.limsView.ReadOnly = true;
+            this.limsView.RowHeadersVisible = false;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.limsView.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            this.limsView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.limsView.Size = new System.Drawing.Size(688, 342);
+            this.limsView.TabIndex = 26;
+            this.limsView.TabStop = false;
+            // 
+            // sample_name
+            // 
+            this.sample_name.HeaderText = "Sample";
+            this.sample_name.Name = "sample_name";
+            this.sample_name.ReadOnly = true;
+            // 
+            // sample_status
+            // 
+            this.sample_status.HeaderText = "Status";
+            this.sample_status.Name = "sample_status";
+            this.sample_status.ReadOnly = true;
             // 
             // statusStrip1
             // 
@@ -634,6 +698,8 @@ namespace Minion.Forms
             this.AnalysisTab.ResumeLayout(false);
             this.AnalysisTab.PerformLayout();
             this.WorkflowPanel.ResumeLayout(false);
+            this.TrackTab.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.limsView)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -686,5 +752,9 @@ namespace Minion.Forms
         public System.Windows.Forms.ToolStripStatusLabel status;
         private System.ComponentModel.BackgroundWorker terminalThread;
         private System.ComponentModel.BackgroundWorker checkThread;
+        private System.Windows.Forms.TabPage TrackTab;
+        public System.Windows.Forms.DataGridView limsView;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sample_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sample_status;
     }
 }

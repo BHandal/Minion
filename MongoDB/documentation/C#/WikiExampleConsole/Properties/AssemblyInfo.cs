@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Minion")]
+[assembly: AssemblyTitle("WikiExampleConsole")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("UT MD Anderson Cancer Center")]
-[assembly: AssemblyProduct("NGS Data Analysis GUI")]
-[assembly: AssemblyCopyright("Copyright ©  2013")]
+[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyProduct("WikiExampleConsole")]
+[assembly: AssemblyCopyright("Copyright © Microsoft 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("117a22b4-4abd-4e81-919f-bcd0a239a531")]
+[assembly: Guid("e236d499-22ea-41bf-b314-31812ce0dae9")]
 
 // Version information for an assembly consists of the following four values:
 //

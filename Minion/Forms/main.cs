@@ -38,6 +38,7 @@ namespace Minion.Forms
             //Form Size
             Size = new System.Drawing.Size(742, 602);
             //Text changes
+            runs_label.Text = Properties.Settings.Default.server_name.ToUpper() + " RUNS";
             status.Text = "Connected";
             status.ForeColor = System.Drawing.Color.DarkGreen;
             global.ssh_status = "connected";
@@ -62,7 +63,7 @@ namespace Minion.Forms
             //Text changes
             status.Text = "Disconnected";
             status.ForeColor = System.Drawing.Color.Red;
-            runs_label.Text = "Runs";
+            runs_label.Text = "RUNS";
             count_label.Text = "Count: 0";
             ipBox.ResetText();
             usrBox.ResetText();
@@ -134,21 +135,15 @@ namespace Minion.Forms
 
             //variant calling
             Properties.Settings.Default.variant_caller = String.Empty;
-            Properties.Settings.Default.variant_regions = String.Empty;
-            Properties.Settings.Default.validate_variants = String.Empty;
-            Properties.Settings.Default.validate_regions = String.Empty;
             Properties.Settings.Default.recalibrate = false;
             Properties.Settings.Default.realign = false;
-            Properties.Settings.Default.realign_choice = String.Empty;
-            Properties.Settings.Default.mark_duplicates = false;
-            Properties.Settings.Default.duplicate_choice = String.Empty;
 
             //more
-            Properties.Settings.Default.rna_seq = false;
-            Properties.Settings.Default.fusion = false;
-            Properties.Settings.Default.cnv = false;
-            Properties.Settings.Default.translocations = false;
-            Properties.Settings.Default.indels = false;
+            Properties.Settings.Default.tophat = false;
+            Properties.Settings.Default.tophat_fusion = false;
+            Properties.Settings.Default.cnvseq = false;
+            Properties.Settings.Default.breakdancer = false;
+            Properties.Settings.Default.pindel = false;
 
             Minion.Properties.Settings.Default.Save();
         }
@@ -202,7 +197,7 @@ namespace Minion.Forms
         }
         void fill_history()
         {
-            string Query = "select server_ip as 'IP', server_name as 'Server Name', run as 'Run',  platform as 'Platform', chemistry as 'Chemistry', aligner as 'Aligner',  variant_caller as 'Caller', rna_seq as 'RNA-Seq', fusion as 'RNA-fusion', translocations as 'Translocations', cnv as 'CNV', indels as 'Indels', date as 'Date', duration as 'Duration', tech as 'Tech', cmd as 'Command' from Minion.dbo.history ;";
+            string Query = "select server_ip as 'IP', server_name as 'Server Name', run as 'Run',  platform as 'Platform', chemistry as 'Chemistry', aligner as 'Aligner',  variant_caller as 'Caller', tophat2 as 'TopHat2', tophat_fusion as 'TopHat-Fusion', breakdancer as 'BreakDancer', cnvseq as 'CNV-seq', pindel as 'Pindel', date as 'Date', duration as 'Duration', tech as 'Tech', cmd as 'Command' from Minion.dbo.history ;";
             SqlCommand cmdDataBase = new SqlCommand(Query, myConn);
 
             SqlDataAdapter sda = new SqlDataAdapter();
@@ -218,13 +213,13 @@ namespace Minion.Forms
         }
         public void runHistory()
         {
-            string Query = "insert into Minion.dbo.history (server_ip,server_name,run,platform,chemistry,aligner,variant_caller,rna_seq,fusion,translocations,cnv,indels,date,duration,tech,cmd) values('" 
+            string Query = "insert into Minion.dbo.history (server_ip,server_name,run,platform,chemistry,aligner,variant_caller,tophat2,tophat_fusion,breakdancer,cnvseq,pindel,date,duration,tech,cmd) values('" 
                 + global.ssh_host + "','" +Properties.Settings.Default.server_name + "','" + Properties.Settings.Default.run
                     + "',' " + Properties.Settings.Default.platform + "',' " + Properties.Settings.Default.chemistry 
                         + " ','" + Properties.Settings.Default.aligner + "','" + Properties.Settings.Default.variant_caller
-                            + "','" + Properties.Settings.Default.rna_seq + "','" + Properties.Settings.Default.fusion
-                            + "','" + Properties.Settings.Default.translocations + "','" + Properties.Settings.Default.cnv
-                                + "','" + Properties.Settings.Default.indels + "','" + global.run_date
+                            + "','" + Properties.Settings.Default.tophat + "','" + Properties.Settings.Default.tophat_fusion
+                            + "','" + Properties.Settings.Default.breakdancer + "','" + Properties.Settings.Default.cnvseq
+                                + "','" + Properties.Settings.Default.pindel + "','" + global.run_date
                                     + "','" + global.run_duration + "','" + Environment.UserName + "','" + run_cmd + "') ;";
             SqlCommand cmdDataBase = new SqlCommand(Query, myConn);
             SqlDataReader myReader;
@@ -687,7 +682,6 @@ namespace Minion.Forms
             }
 
         }
-
 
 
     }
