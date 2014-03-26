@@ -59,5 +59,8 @@
     <Setting Name="pindel" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="type" Type="System.String" Scope="User">
+      <Value Profile="(Default)">main</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

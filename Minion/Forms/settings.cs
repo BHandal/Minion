@@ -188,7 +188,7 @@ namespace Minion.Forms
                 Properties.Settings.Default.breakdancer = translocations.Checked;
                 Properties.Settings.Default.pindel = indels.Checked;
                               
-                config cf = new config();
+                workflow cf = new workflow();
                 cf.ShowDialog();
                 
             }

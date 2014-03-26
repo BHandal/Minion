@@ -7,6 +7,7 @@ using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SqlClient;
 using System.Windows.Forms;
 
 namespace Minion.Forms
@@ -17,6 +18,7 @@ namespace Minion.Forms
         {
             InitializeComponent();
         }
+        SqlConnection myConn = new SqlConnection(@"Data Source=LISW549150;Initial Catalog=Minion;Integrated Security=False;User Id=minion;Password=mdladmin123!");
         #region Menustrip
 
         /// <summary>
@@ -110,6 +112,36 @@ namespace Minion.Forms
                System.Drawing.Printing.PrintPageEventArgs e)
         {
             e.Graphics.DrawImage(memoryImage, 0, 0);
+        }
+
+        private void usersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string Query = "select * from Minion.dbo.users where  uname = @User;";
+            SqlCommand cmd = new SqlCommand(Query, myConn);
+            SqlParameter param = new SqlParameter();
+            param.ParameterName = "@User";
+            param.Value = Environment.UserName;
+            cmd.Parameters.Add(param);
+
+            myConn.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                if (reader["type"].ToString() == "admin")
+                {
+                    using (users utilDialog = new users())
+                    {
+                        utilDialog.ShowDialog();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Unauthorized Access: Access is denied due to insufficient privileges", "Minion - 403 Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            myConn.Close();
+
+
         }
     }
 }

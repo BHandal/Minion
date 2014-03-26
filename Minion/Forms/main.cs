@@ -36,7 +36,7 @@ namespace Minion.Forms
             Connected.Show();
             Disconnected.Hide();
             //Form Size
-            Size = new System.Drawing.Size(742, 602);
+            Size = new System.Drawing.Size(742, 597);
             //Text changes
             runs_label.Text = Properties.Settings.Default.server_name.ToUpper() + " RUNS";
             status.Text = "Connected";
@@ -52,14 +52,14 @@ namespace Minion.Forms
             ConnectionGroup.Enabled = true;
             DisconnectBtn.Enabled = false;
             runs.Enabled = false;
-            ExecuteButton.Enabled = false;
+            mainExecuteBtn.Enabled = false;
             //Visbility
             runs.SelectedIndex = -1;
             Connected.Hide();
             Disconnected.Show();
-            progressBar.Visible = false;
+            mainProgressBar.Visible = false;
             //Form Size
-            this.Size = new System.Drawing.Size(742, 234);
+            this.Size = new System.Drawing.Size(742, 276);
             //Text changes
             status.Text = "Disconnected";
             status.ForeColor = System.Drawing.Color.Red;
@@ -69,7 +69,7 @@ namespace Minion.Forms
             usrBox.ResetText();
             pwdBox.ResetText();
             runs.Items.Clear();
-            ExecuteButton.Text = "EXECUTE";
+            mainExecuteBtn.Text = "EXECUTE";
 
             global.ssh_status = "disconnected";
             default_settings();
@@ -78,10 +78,14 @@ namespace Minion.Forms
         }
         public void startAnalysis()
         {
-            progressBar.Visible = true;
+            mainProgressBar.Visible = true;
             status.Text = "Analysing " + Properties.Settings.Default.run + ", please wait...";
             status.ForeColor = System.Drawing.Color.Black;
-            ExecuteButton.Text = "CANCEL";
+            mainExecuteBtn.Text = "CANCEL";
+            customExecuteBtn.Text = "CANCEL";
+            customWorkflowBtn.Enabled = false;
+            customWorkflowBtn.Visible = false;
+            customExecuteBtn.Visible = true;
             runs.Enabled = false;
 
         }
@@ -105,10 +109,10 @@ namespace Minion.Forms
                     status.ForeColor = System.Drawing.Color.DarkGreen;
                 }
                 runs.SelectedIndex = -1;
-                ExecuteButton.Cursor = Cursors.Hand;
-                ExecuteButton.Text = "EXECUTE";
-                ExecuteButton.Enabled = false;
-                progressBar.Visible = false;
+                mainExecuteBtn.Cursor = Cursors.Hand;
+                mainExecuteBtn.Text = "EXECUTE";
+                mainExecuteBtn.Enabled = false;
+                mainProgressBar.Visible = false;
                 runs.Enabled = true;              
             }
             catch (Exception ex)
@@ -206,10 +210,10 @@ namespace Minion.Forms
             sda.Fill(dbdataset);
             BindingSource bSource = new BindingSource();
             bSource.DataSource = dbdataset;
-            history.DataSource = bSource;
+            historyDB.DataSource = bSource;
             sda.Update(dbdataset);
 
-            history.ClearSelection();
+            historyDB.ClearSelection();
         }
         public void runHistory()
         {
@@ -230,8 +234,8 @@ namespace Minion.Forms
             myConn.Close();
 
             fill_history();
-            history.Update();
-            history.Refresh();
+            historyDB.Update();
+            historyDB.Refresh();
         }
         public void updateHistory()
         {
@@ -244,25 +248,25 @@ namespace Minion.Forms
             myConn.Close();
 
             fill_history();
-            history.Update();
-            history.Refresh();
+            historyDB.Update();
+            historyDB.Refresh();
         }
         public void terminalUpdate(string analysis_status)
         {
             if (analysis_status == "cancel")
             {
-                terminal.Clear();
-                terminal.AppendText("Analysis cancelled on " + Properties.Settings.Default.run);
+                mainTerminal.Clear();
+                mainTerminal.AppendText("Analysis cancelled on " + Properties.Settings.Default.run);
             }
             else if (analysis_status == "error")
             {
-                terminal.Clear();
-                terminal.AppendText("Analysis error on " + Properties.Settings.Default.run);
+                mainTerminal.Clear();
+                mainTerminal.AppendText("Analysis error on " + Properties.Settings.Default.run);
             }
             else
             {
-                terminal.Clear();
-                terminal.AppendText("Analysis completed on " + Properties.Settings.Default.run);
+                mainTerminal.Clear();
+                mainTerminal.AppendText("Analysis completed on " + Properties.Settings.Default.run);
             }
 
         }
@@ -279,7 +283,7 @@ namespace Minion.Forms
             _Timer.Interval = 1000;
             _Timer.Tick += new EventHandler(_Timer_Tick);
             _Timer.Start();
-            this.Size = new System.Drawing.Size(742, 234);
+            this.Size = new System.Drawing.Size(742, 276);
              
             fill_ipBox();
             fill_history();
@@ -346,7 +350,7 @@ namespace Minion.Forms
         }
         private void DisconnectBtn_Click(object sender, EventArgs e)
         {
-            if (terminalThread.IsBusy) { ExecuteButton_Click(sender, e); }
+            if (terminalThread.IsBusy) { mainExecuteBtn_Click(sender, e); }
             disconnected(); 
         }
         private void SaveIPButton_Click(object sender, EventArgs e)
@@ -360,53 +364,12 @@ namespace Minion.Forms
                 }
             }
         }
-        private void ExecuteButton_Click(object sender, EventArgs e)
+        private void mainExecuteBtn_Click(object sender, EventArgs e)
         {
-            ExecuteButton.Focus();
-            if (ExecuteButton.Text == "EXECUTE")
+            Properties.Settings.Default.type = "main";
+            if (mainExecuteBtn.Text == "EXECUTE")
             {
-                run_cmd = new StringBuilder();
-                if (run_cmd.Length > 0)
-                {
-                    run_cmd.Clear();
-                }
-                if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.run))
-                {
-                    if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.platform))
-                    {
-                        // run_cmd.Append("minion -p ").Append(Properties.Settings.Default.platform);
-                        run_cmd.Append("minion -p ").Append(Properties.Settings.Default.server_name);
-                    }
-                    if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.chemistry))
-                    {
-                        run_cmd.Append(" -c ").Append(Properties.Settings.Default.chemistry).Append(" -r ").Append(Properties.Settings.Default.server_dir).Append(Properties.Settings.Default.run); ;
-                    }
-                    if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.aligner))
-                    {
-                        run_cmd.Append(" -a ").Append(Properties.Settings.Default.aligner);
-                    }
-                    if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.variant_caller))
-                    {
-                        run_cmd.Append(" -v ").Append(Properties.Settings.Default.variant_caller);
-                    }
-                    if (Properties.Settings.Default.demultiplex == true)
-                    {
-                        run_cmd.Append(" -d");
-                    }
-                    if (Properties.Settings.Default.dual_index == true)
-                    {
-                        run_cmd.Append(" -m Y*,I8,I8,Y*");
-                    }
-                    else if (Properties.Settings.Default.dual_index == false)
-                    {
-                        run_cmd.Append(" -m Y*,I8,Y*");
-                    }
-                    if (Properties.Settings.Default.custom_trim == true)
-                    {
-                        run_cmd.Append(" --a1 ").Append(Properties.Settings.Default.f_adapter).Append(" --a2 ").Append(Properties.Settings.Default.r_adapter);
-                    }
-                }                
-                DialogResult dialogResult = MessageBox.Show("Ready to analyze " + Properties.Settings.Default.run + "? \r\n\n"+run_cmd.ToString(), "Minion - Checkpoint", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult dialogResult = MessageBox.Show("Ready to analyze " + Properties.Settings.Default.run + "? \r\n\n" + run_cmd.ToString(), "SEQuipt - Checkpoint", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dialogResult == DialogResult.Yes)
                 {
                     global.run_date = DateTime.Now.ToString();
@@ -414,33 +377,31 @@ namespace Minion.Forms
 
                     startAnalysis();
                     runHistory();
-
-                    ssh_command("analysis", global.ssh_host, global.ssh_usr, global.ssh_pass, run_cmd.ToString());
+                    ssh_command("analyze", global.ssh_host, global.ssh_usr, global.ssh_pass, run_cmd.ToString());
                 }
                 else if (dialogResult == DialogResult.No) { dialogResult = DialogResult.Cancel; }
             }
-            else if (ExecuteButton.Text == "CANCEL")
+            else if (mainExecuteBtn.Text == "CANCEL")
             {
-                DialogResult dialogResult = MessageBox.Show("Are you sure you want to cancel analysis on " + Properties.Settings.Default.run + "?", "Minion - Important Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult dialogResult = MessageBox.Show("Are you sure you want to cancel analysis on " + Properties.Settings.Default.run + "?", "SEQuipt - Important Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dialogResult == DialogResult.Yes)
                 {
-                    try
+                    while (true)
                     {
-                        abort = true;
-                        run_cmd = new StringBuilder();
-                        status.Text = "Cancelling " + Properties.Settings.Default.run + ", please wait...";
-                        run_cmd.Append("kill -2 `ps aux | grep minion | awk '{print $2}'`]");
-                        ssh_command("kill", global.ssh_host, global.ssh_usr, global.ssh_pass, run_cmd.ToString());                       
+                        if (terminalThread.IsBusy)
+                        {
+                            run_cmd = new StringBuilder();
+                            run_cmd.Append("kill -9 `ps aux | grep sequipt.py | awk '{print $2}'`]");
+                            ssh_command("kill", global.ssh_host, global.ssh_usr, global.ssh_pass, run_cmd.ToString());
+                            terminalThread.CancelAsync();
+                        }
+                        else break;
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "Minion - Cancel Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    
                 }
                 else if (dialogResult == DialogResult.No) { dialogResult = DialogResult.Cancel; }
 
             }
+
         }
         #endregion
 
@@ -471,6 +432,35 @@ namespace Minion.Forms
             {
                 utilDialog.ShowDialog();
             }
+        }
+        private void usersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string Query = "select * from Minion.dbo.users where  uname = @User;";
+            SqlCommand cmd = new SqlCommand(Query, myConn);
+            SqlParameter param = new SqlParameter();
+            param.ParameterName = "@User";
+            param.Value = Environment.UserName;
+            cmd.Parameters.Add(param);
+
+            myConn.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+            while(reader.Read())
+            {
+                if (reader["type"].ToString() == "admin")
+                {
+                    using (users utilDialog = new users())
+                    {
+                        utilDialog.ShowDialog();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Unauthorized Access: Access is denied due to insufficient privileges", "Minion - 403 Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            myConn.Close();
+
+
         }
 
         private void functionsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -518,7 +508,7 @@ namespace Minion.Forms
             while (!abort)
             {
                 stdout = ssh.ReadResponse();
-                terminal.BeginInvoke(new TerminalDelegate(redirectOutput), new string[] { stdout });
+                mainTerminal.BeginInvoke(new TerminalDelegate(redirectOutput), new string[] { stdout });
             }
             if (worker.CancellationPending)
             {
@@ -578,7 +568,7 @@ namespace Minion.Forms
         #endregion
 
         #region Misc variables
-        SqlConnection myConn = new SqlConnection(@"Data Source=LISW549150;Initial Catalog=Minion;Integrated Security=True");
+        SqlConnection myConn = new SqlConnection(@"Data Source=LISW549150;Initial Catalog=Minion;Integrated Security=False;User Id=minion;Password=mdladmin123!");
         //SSH.ssh_test execute = new SSH.ssh_test();
         Stopwatch stopWatch = new Stopwatch();
         public delegate void InvokeDelegate();
@@ -647,7 +637,7 @@ namespace Minion.Forms
         public delegate void TerminalDelegate(string stdout);
         public void redirectOutput(string stdout)
         {
-            this.terminal.AppendText(stdout);
+            this.mainTerminal.AppendText(stdout);
         }
         #endregion
 
@@ -668,21 +658,316 @@ namespace Minion.Forms
 
                 settings SF = new settings();
                 SF.ShowDialog();
+                run_cmd = new StringBuilder();
+                if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.run))
+                {
+                    if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.platform))
+                    {
+                        // run_cmd.Append("sequipt -p ").Append(Properties.Settings.Default.platform);
+                        run_cmd.Append("sequipt -p ").Append(Properties.Settings.Default.server_name);
+                    }
+                    if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.chemistry))
+                    {
+                        run_cmd.Append(" -c ").Append(Properties.Settings.Default.chemistry).Append(" -r ").Append(Properties.Settings.Default.server_dir).Append(Properties.Settings.Default.run); ;
+                    }
+                    if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.aligner))
+                    {
+                        run_cmd.Append(" -a ").Append(Properties.Settings.Default.aligner);
+                    }
+                    if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.variant_caller))
+                    {
+                        run_cmd.Append(" -v ").Append(Properties.Settings.Default.variant_caller);
+                    }
+                    if (Properties.Settings.Default.demultiplex == true)
+                    {
+                        run_cmd.Append(" -d");
+                    }
+                    if (Properties.Settings.Default.dual_index == true)
+                    {
+                        run_cmd.Append(" -m Y*,I8,I8,Y*");
+                    }
+                    else if (Properties.Settings.Default.dual_index == false)
+                    {
+                        run_cmd.Append(" -m Y*,I8,Y*");
+                    }
+                    if (Properties.Settings.Default.custom_trim == true)
+                    {
+                        run_cmd.Append(" --a1 ").Append(Properties.Settings.Default.f_adapter).Append(" --a2 ").Append(Properties.Settings.Default.r_adapter);
+                    }
+                }
                 
             }
         }
-        #endregion
-
         private void terminal_TextChanged(object sender, EventArgs e)
         {
-            if (terminal.Text.Length > 0)
+            if (mainTerminal.Text.Length > 0)
             {
-                terminal.Select(terminal.Text.Length - 1, 0);
-                terminal.ScrollToCaret();
+                mainTerminal.Select(mainTerminal.Text.Length - 1, 0);
+                mainTerminal.ScrollToCaret();
             }
 
         }
+        #endregion
 
+        #region custom tab
 
+        private void SampleList_DragEnter(object sender, DragEventArgs e)
+        {
+            
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+               e.Effect = DragDropEffects.All;
+                
+            else
+                e.Effect = DragDropEffects.None;
+        }
+
+        private void SampleList_DragDrop(object sender, DragEventArgs e)
+        {
+            label2.Visible = false;
+            button2.Enabled = true;
+            customWorkflowBtn.Enabled = true;
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+                foreach (string file in files)
+                {
+                    string ext = Path.GetExtension(file);
+                    if (ext == ".fastq")
+                    {
+                        string sampleName = Path.GetFileNameWithoutExtension(file);
+                        sampleList.Rows.Add();
+                        int RowIndex = sampleList.RowCount - 2;
+                        DataGridViewRow R = sampleList.Rows[RowIndex];
+                        R.Cells["sName"].Value = sampleName;
+                        R.Cells["sDir"].Value = file;
+                    }
+                    else
+                    {
+                        MessageBox.Show(Path.GetFileName(file) + " is not a FASTQ file.", "Minion - File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private void MinionControl_Selected(object sender, TabControlEventArgs e)
+        {
+            if (this.Size != new System.Drawing.Size(742, 597))
+            {
+                if (e.TabPage == MainTab)
+                {
+                    this.Size = new System.Drawing.Size(742, 276);
+                }
+                else if (e.TabPage == CustomTab)
+                {
+                    this.Size = new System.Drawing.Size(742, 347);
+                }
+            }
+        }
+        private void SampleList_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (sampleList.SelectedRows.Count > 0)
+            {
+                DataGridViewRow currentRow = sampleList.SelectedRows[0];
+                if (currentRow.Cells.Count > 0) 
+                {      
+                    bool rowIsEmpty = true;    
+
+                    foreach(DataGridViewCell cell in currentRow.Cells)    
+                    {
+                       if(cell.Value != null) 
+                       { 
+                           rowIsEmpty = false;
+                           break;
+                       }    
+                    }
+
+                   if(rowIsEmpty)
+                       MessageBox.Show("Select a non null row","Minion - Null Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                   else
+                       if (e.Button == MouseButtons.Right)
+                       {
+                           var hti = sampleList.HitTest(e.X, e.Y);
+                           sampleList.ClearSelection();
+                           sampleList.Rows[hti.RowIndex].Selected = true;
+                       }
+                }
+            }
+        }
+
+        private void viewInExplorerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (sampleList.SelectedRows.Count > 0)
+            {
+                DataGridViewRow currentRow = sampleList.SelectedRows[0];
+                if (currentRow.Cells.Count > 0)
+                {
+                    bool rowIsEmpty = true;
+
+                    foreach (DataGridViewCell cell in currentRow.Cells)
+                    {
+                        if (cell.Value != null)
+                        {
+                            rowIsEmpty = false;
+                            break;
+                        }
+                    }
+
+                    if (rowIsEmpty)
+                        MessageBox.Show("Select a non null row", "Minion - Null Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    else
+                    {
+                        int RowIndex = sampleList.RowCount - 2;
+                        DataGridViewRow R = sampleList.Rows[RowIndex];
+                        string fileToSelect = R.Cells["sDir"].Value.ToString();
+
+                        if (File.Exists(fileToSelect))
+                        {
+                            string args = string.Format(@"/select, {0}", fileToSelect);
+                            ProcessStartInfo pfi = new ProcessStartInfo("Explorer.exe", args);
+                            System.Diagnostics.Process.Start(pfi);
+                            sampleList.ClearSelection();
+                        }
+                        else
+                        {
+                            MessageBox.Show("File not found.", "Minion - 404 Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (sampleList.SelectedRows.Count > 0)
+            {
+                DataGridViewRow currentRow = sampleList.SelectedRows[0];
+                if (currentRow.Cells.Count > 0) 
+                {      
+                    bool rowIsEmpty = true;    
+
+                    foreach(DataGridViewCell cell in currentRow.Cells)    
+                    {
+                       if(cell.Value != null) 
+                       { 
+                           rowIsEmpty = false;
+                           break;
+                       }    
+                    }
+
+                    if (rowIsEmpty)
+                        MessageBox.Show("Select a non null row", "Minion - Null Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    else
+                    {
+                        Int32 rowToDelete = sampleList.Rows.GetFirstRow(DataGridViewElementStates.Selected);
+                        sampleList.Rows.RemoveAt(rowToDelete);
+                        sampleList.ClearSelection();
+                        if (sampleList.Rows.Count == 1)
+                        {
+                            label2.Visible = true;
+                            button2.Enabled = false;
+                            customWorkflowBtn.Enabled = false;
+                            customWorkflowBtn.Visible = true;
+                            customExecuteBtn.Visible = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.sampleList.Rows.Clear();
+            label2.Visible = true;
+            button2.Enabled = false;
+            Minion.Properties.Settings.Default.Reset();
+            Minion.Properties.Settings.Default.Save();
+            customWorkflowBtn.Enabled = false;
+            customWorkflowBtn.Visible = true;
+            customExecuteBtn.Visible = false;
+        }
+        #endregion
+
+        private void customWorkflowBtn_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.type = "custom";
+
+            settings SF = new settings();
+            SF.ShowDialog();
+            run_cmd = new StringBuilder();
+            if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.run))
+            {
+                if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.platform))
+                {
+                    // run_cmd.Append("sequipt -p ").Append(Properties.Settings.Default.platform);
+                    run_cmd.Append("sequipt -p ").Append(Properties.Settings.Default.server_name);
+                }
+                if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.chemistry))
+                {
+                    run_cmd.Append(" -c ").Append(Properties.Settings.Default.chemistry).Append(" -r ").Append(Properties.Settings.Default.server_dir).Append(Properties.Settings.Default.run); ;
+                }
+                if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.aligner))
+                {
+                    run_cmd.Append(" -a ").Append(Properties.Settings.Default.aligner);
+                }
+                if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.variant_caller))
+                {
+                    run_cmd.Append(" -v ").Append(Properties.Settings.Default.variant_caller);
+                }
+                if (Properties.Settings.Default.demultiplex == true)
+                {
+                    run_cmd.Append(" -d");
+                }
+                if (Properties.Settings.Default.dual_index == true)
+                {
+                    run_cmd.Append(" -m Y*,I8,I8,Y*");
+                }
+                else if (Properties.Settings.Default.dual_index == false)
+                {
+                    run_cmd.Append(" -m Y*,I8,Y*");
+                }
+                if (Properties.Settings.Default.custom_trim == true)
+                {
+                    run_cmd.Append(" --a1 ").Append(Properties.Settings.Default.f_adapter).Append(" --a2 ").Append(Properties.Settings.Default.r_adapter);
+                }
+            }
+        }
+
+        private void customExecuteBtn_Click(object sender, EventArgs e)
+        {
+            if (mainExecuteBtn.Text == "EXECUTE")
+            {
+                DialogResult dialogResult = MessageBox.Show("Ready to analyze " + Properties.Settings.Default.run + "? \r\n\n" + run_cmd.ToString(), "SEQuipt - Checkpoint", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    global.run_date = DateTime.Now.ToString();
+                    global.run_duration = "In Progress...";
+
+                    startAnalysis();
+                    runHistory();
+                    ssh_command("analyze", global.ssh_host, global.ssh_usr, global.ssh_pass, run_cmd.ToString());
+                }
+                else if (dialogResult == DialogResult.No) { dialogResult = DialogResult.Cancel; }
+            }
+            else if (mainExecuteBtn.Text == "CANCEL")
+            {
+                DialogResult dialogResult = MessageBox.Show("Are you sure you want to cancel analysis on " + Properties.Settings.Default.run + "?", "SEQuipt - Important Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    while (true)
+                    {
+                        if (terminalThread.IsBusy)
+                        {
+                            run_cmd = new StringBuilder();
+                            run_cmd.Append("kill -9 `ps aux | grep sequipt.py | awk '{print $2}'`]");
+                            ssh_command("kill", global.ssh_host, global.ssh_usr, global.ssh_pass, run_cmd.ToString());
+                            terminalThread.CancelAsync();
+                        }
+                        else break;
+                    }
+                }
+                else if (dialogResult == DialogResult.No) { dialogResult = DialogResult.Cancel; }
+
+            }
+        }
     }
 }

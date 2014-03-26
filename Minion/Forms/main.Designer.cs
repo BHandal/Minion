@@ -35,17 +35,19 @@ namespace Minion.Forms
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.utilToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.serversToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.usersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.functionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutMinionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutNextGENeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.casavaGuideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contactToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ConnectionGroup = new System.Windows.Forms.GroupBox();
@@ -62,37 +64,54 @@ namespace Minion.Forms
             this.DisconnectBtn = new System.Windows.Forms.Button();
             this.Disconnected = new System.Windows.Forms.Label();
             this.Connected = new System.Windows.Forms.Label();
-            this.progressBar = new System.Windows.Forms.ProgressBar();
-            this.HistoryTab = new System.Windows.Forms.TabPage();
-            this.history = new System.Windows.Forms.DataGridView();
-            this.AnalysisTab = new System.Windows.Forms.TabPage();
-            this.count_label = new System.Windows.Forms.Label();
-            this.terminal = new System.Windows.Forms.RichTextBox();
-            this.runs = new System.Windows.Forms.ComboBox();
-            this.ExecuteButton = new System.Windows.Forms.Button();
-            this.runs_label = new System.Windows.Forms.Label();
-            this.WorkflowPanel = new System.Windows.Forms.TabControl();
-            this.TrackTab = new System.Windows.Forms.TabPage();
-            this.limsView = new System.Windows.Forms.DataGridView();
-            this.sample_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sample_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.status = new System.Windows.Forms.ToolStripStatusLabel();
             this.TimeOfDay = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.terminalThread = new System.ComponentModel.BackgroundWorker();
             this.checkThread = new System.ComponentModel.BackgroundWorker();
+            this.MinionControl = new System.Windows.Forms.TabControl();
+            this.MainTab = new System.Windows.Forms.TabPage();
+            this.count_label = new System.Windows.Forms.Label();
+            this.mainProgressBar = new System.Windows.Forms.ProgressBar();
+            this.mainTerminal = new System.Windows.Forms.RichTextBox();
+            this.runs = new System.Windows.Forms.ComboBox();
+            this.mainExecuteBtn = new System.Windows.Forms.Button();
+            this.runs_label = new System.Windows.Forms.Label();
+            this.CustomTab = new System.Windows.Forms.TabPage();
+            this.customWorkflowBtn = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.customExecuteBtn = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.sampleList = new System.Windows.Forms.DataGridView();
+            this.sName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sDir = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SampleListContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.viewInExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.customProgressBar = new System.Windows.Forms.ProgressBar();
+            this.customTerminal = new System.Windows.Forms.RichTextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.queueView = new System.Windows.Forms.DataGridView();
+            this.sample_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sample_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.historyDB = new System.Windows.Forms.DataGridView();
             this.menuStrip1.SuspendLayout();
             this.ConnectionGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SaveIPButton)).BeginInit();
             this.statusGroup.SuspendLayout();
-            this.HistoryTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.history)).BeginInit();
-            this.AnalysisTab.SuspendLayout();
-            this.WorkflowPanel.SuspendLayout();
-            this.TrackTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.limsView)).BeginInit();
             this.statusStrip1.SuspendLayout();
+            this.MinionControl.SuspendLayout();
+            this.MainTab.SuspendLayout();
+            this.CustomTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.sampleList)).BeginInit();
+            this.SampleListContextMenu.SuspendLayout();
+            this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.queueView)).BeginInit();
+            this.tabPage5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.historyDB)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -125,6 +144,7 @@ namespace Minion.Forms
             this.utilToolStripMenuItem.BackColor = System.Drawing.SystemColors.Window;
             this.utilToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.serversToolStripMenuItem,
+            this.usersToolStripMenuItem,
             this.functionsToolStripMenuItem});
             this.utilToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.utilToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("utilToolStripMenuItem.Image")));
@@ -139,6 +159,14 @@ namespace Minion.Forms
             this.serversToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.serversToolStripMenuItem.Text = "Servers";
             this.serversToolStripMenuItem.Click += new System.EventHandler(this.serversToolStripMenuItem_Click);
+            // 
+            // usersToolStripMenuItem
+            // 
+            this.usersToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("usersToolStripMenuItem.Image")));
+            this.usersToolStripMenuItem.Name = "usersToolStripMenuItem";
+            this.usersToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.usersToolStripMenuItem.Text = "Users";
+            this.usersToolStripMenuItem.Click += new System.EventHandler(this.usersToolStripMenuItem_Click);
             // 
             // functionsToolStripMenuItem
             // 
@@ -180,7 +208,6 @@ namespace Minion.Forms
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutMinionToolStripMenuItem,
-            this.aboutNextGENeToolStripMenuItem,
             this.casavaGuideToolStripMenuItem,
             this.contactToolStripMenuItem});
             this.helpToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -194,25 +221,15 @@ namespace Minion.Forms
             this.aboutMinionToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.aboutMinionToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("aboutMinionToolStripMenuItem.Image")));
             this.aboutMinionToolStripMenuItem.Name = "aboutMinionToolStripMenuItem";
-            this.aboutMinionToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.aboutMinionToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.aboutMinionToolStripMenuItem.Text = "Minion Guide";
             this.aboutMinionToolStripMenuItem.Click += new System.EventHandler(this.aboutMinionToolStripMenuItem_Click);
-            // 
-            // aboutNextGENeToolStripMenuItem
-            // 
-            this.aboutNextGENeToolStripMenuItem.BackColor = System.Drawing.SystemColors.Window;
-            this.aboutNextGENeToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.aboutNextGENeToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("aboutNextGENeToolStripMenuItem.Image")));
-            this.aboutNextGENeToolStripMenuItem.Name = "aboutNextGENeToolStripMenuItem";
-            this.aboutNextGENeToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
-            this.aboutNextGENeToolStripMenuItem.Text = "NextGENe Guide";
-            this.aboutNextGENeToolStripMenuItem.Click += new System.EventHandler(this.aboutNextGENeToolStripMenuItem_Click);
             // 
             // casavaGuideToolStripMenuItem
             // 
             this.casavaGuideToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("casavaGuideToolStripMenuItem.Image")));
             this.casavaGuideToolStripMenuItem.Name = "casavaGuideToolStripMenuItem";
-            this.casavaGuideToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.casavaGuideToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.casavaGuideToolStripMenuItem.Text = "CASAVA Guide";
             this.casavaGuideToolStripMenuItem.Click += new System.EventHandler(this.casavaGuideToolStripMenuItem_Click);
             // 
@@ -222,7 +239,7 @@ namespace Minion.Forms
             this.contactToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.contactToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("contactToolStripMenuItem.Image")));
             this.contactToolStripMenuItem.Name = "contactToolStripMenuItem";
-            this.contactToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.contactToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.contactToolStripMenuItem.Text = "Contact";
             this.contactToolStripMenuItem.Click += new System.EventHandler(this.contactToolStripMenuItem_Click);
             // 
@@ -239,7 +256,7 @@ namespace Minion.Forms
             this.ConnectionGroup.Controls.Add(this.pwdBox);
             this.ConnectionGroup.Controls.Add(this.SaveIPButton);
             this.ConnectionGroup.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ConnectionGroup.Location = new System.Drawing.Point(12, 37);
+            this.ConnectionGroup.Location = new System.Drawing.Point(8, 11);
             this.ConnectionGroup.Name = "ConnectionGroup";
             this.ConnectionGroup.Size = new System.Drawing.Size(384, 130);
             this.ConnectionGroup.TabIndex = 22;
@@ -362,7 +379,7 @@ namespace Minion.Forms
             this.statusGroup.Controls.Add(this.Disconnected);
             this.statusGroup.Controls.Add(this.Connected);
             this.statusGroup.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.statusGroup.Location = new System.Drawing.Point(514, 37);
+            this.statusGroup.Location = new System.Drawing.Point(502, 11);
             this.statusGroup.Name = "statusGroup";
             this.statusGroup.Size = new System.Drawing.Size(200, 130);
             this.statusGroup.TabIndex = 23;
@@ -416,224 +433,12 @@ namespace Minion.Forms
             this.Connected.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.Connected.Visible = false;
             // 
-            // progressBar
-            // 
-            this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar.Cursor = System.Windows.Forms.Cursors.Default;
-            this.progressBar.Location = new System.Drawing.Point(6, 329);
-            this.progressBar.MarqueeAnimationSpeed = 1;
-            this.progressBar.Maximum = 1;
-            this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(682, 19);
-            this.progressBar.Step = 1;
-            this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
-            this.progressBar.TabIndex = 10;
-            this.progressBar.Visible = false;
-            // 
-            // HistoryTab
-            // 
-            this.HistoryTab.Controls.Add(this.history);
-            this.HistoryTab.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.HistoryTab.Location = new System.Drawing.Point(4, 26);
-            this.HistoryTab.Name = "HistoryTab";
-            this.HistoryTab.Padding = new System.Windows.Forms.Padding(3);
-            this.HistoryTab.Size = new System.Drawing.Size(694, 348);
-            this.HistoryTab.TabIndex = 2;
-            this.HistoryTab.Text = "   HISTORY     ";
-            this.HistoryTab.UseVisualStyleBackColor = true;
-            // 
-            // history
-            // 
-            this.history.AllowUserToAddRows = false;
-            this.history.AllowUserToDeleteRows = false;
-            this.history.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.history.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.history.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.history.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.history.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.history.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            this.history.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.history.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.history.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.history.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.history.Location = new System.Drawing.Point(3, 3);
-            this.history.MultiSelect = false;
-            this.history.Name = "history";
-            this.history.ReadOnly = true;
-            this.history.RowHeadersVisible = false;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.history.RowsDefaultCellStyle = dataGridViewCellStyle2;
-            this.history.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.history.Size = new System.Drawing.Size(688, 342);
-            this.history.TabIndex = 25;
-            this.history.TabStop = false;
-            // 
-            // AnalysisTab
-            // 
-            this.AnalysisTab.Controls.Add(this.count_label);
-            this.AnalysisTab.Controls.Add(this.progressBar);
-            this.AnalysisTab.Controls.Add(this.terminal);
-            this.AnalysisTab.Controls.Add(this.runs);
-            this.AnalysisTab.Controls.Add(this.ExecuteButton);
-            this.AnalysisTab.Controls.Add(this.runs_label);
-            this.AnalysisTab.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.AnalysisTab.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.AnalysisTab.Location = new System.Drawing.Point(4, 26);
-            this.AnalysisTab.Name = "AnalysisTab";
-            this.AnalysisTab.Padding = new System.Windows.Forms.Padding(3);
-            this.AnalysisTab.Size = new System.Drawing.Size(694, 348);
-            this.AnalysisTab.TabIndex = 0;
-            this.AnalysisTab.Text = "CONSOLE";
-            this.AnalysisTab.UseVisualStyleBackColor = true;
-            // 
-            // count_label
-            // 
-            this.count_label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.count_label.AutoSize = true;
-            this.count_label.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.count_label.Location = new System.Drawing.Point(494, 7);
-            this.count_label.Name = "count_label";
-            this.count_label.Size = new System.Drawing.Size(56, 17);
-            this.count_label.TabIndex = 38;
-            this.count_label.Text = "Count: 0";
-            // 
-            // terminal
-            // 
-            this.terminal.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.terminal.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
-            this.terminal.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.terminal.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.terminal.Location = new System.Drawing.Point(6, 58);
-            this.terminal.Name = "terminal";
-            this.terminal.ReadOnly = true;
-            this.terminal.Size = new System.Drawing.Size(682, 271);
-            this.terminal.TabIndex = 37;
-            this.terminal.Text = "";
-            this.terminal.TextChanged += new System.EventHandler(this.terminal_TextChanged);
-            // 
-            // runs
-            // 
-            this.runs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.runs.BackColor = System.Drawing.SystemColors.Window;
-            this.runs.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.runs.Enabled = false;
-            this.runs.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.runs.FormattingEnabled = true;
-            this.runs.ItemHeight = 17;
-            this.runs.Location = new System.Drawing.Point(6, 27);
-            this.runs.Name = "runs";
-            this.runs.Size = new System.Drawing.Size(570, 25);
-            this.runs.Sorted = true;
-            this.runs.TabIndex = 36;
-            this.runs.SelectedIndexChanged += new System.EventHandler(this.runs_SelectedIndexChanged);
-            // 
-            // ExecuteButton
-            // 
-            this.ExecuteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ExecuteButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ExecuteButton.Enabled = false;
-            this.ExecuteButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ExecuteButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.ExecuteButton.Location = new System.Drawing.Point(582, 27);
-            this.ExecuteButton.Name = "ExecuteButton";
-            this.ExecuteButton.Size = new System.Drawing.Size(106, 25);
-            this.ExecuteButton.TabIndex = 35;
-            this.ExecuteButton.Text = "EXECUTE";
-            this.ExecuteButton.UseVisualStyleBackColor = true;
-            this.ExecuteButton.Click += new System.EventHandler(this.ExecuteButton_Click);
-            // 
-            // runs_label
-            // 
-            this.runs_label.AutoSize = true;
-            this.runs_label.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.runs_label.Location = new System.Drawing.Point(6, 3);
-            this.runs_label.Name = "runs_label";
-            this.runs_label.Size = new System.Drawing.Size(52, 21);
-            this.runs_label.TabIndex = 7;
-            this.runs_label.Text = "RUNS";
-            // 
-            // WorkflowPanel
-            // 
-            this.WorkflowPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.WorkflowPanel.Controls.Add(this.AnalysisTab);
-            this.WorkflowPanel.Controls.Add(this.TrackTab);
-            this.WorkflowPanel.Controls.Add(this.HistoryTab);
-            this.WorkflowPanel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.WorkflowPanel.Location = new System.Drawing.Point(12, 173);
-            this.WorkflowPanel.Name = "WorkflowPanel";
-            this.WorkflowPanel.SelectedIndex = 0;
-            this.WorkflowPanel.Size = new System.Drawing.Size(702, 378);
-            this.WorkflowPanel.TabIndex = 24;
-            // 
-            // TrackTab
-            // 
-            this.TrackTab.Controls.Add(this.limsView);
-            this.TrackTab.Location = new System.Drawing.Point(4, 26);
-            this.TrackTab.Name = "TrackTab";
-            this.TrackTab.Padding = new System.Windows.Forms.Padding(3);
-            this.TrackTab.Size = new System.Drawing.Size(694, 348);
-            this.TrackTab.TabIndex = 3;
-            this.TrackTab.Text = "TRACKING";
-            this.TrackTab.UseVisualStyleBackColor = true;
-            // 
-            // limsView
-            // 
-            this.limsView.AllowUserToAddRows = false;
-            this.limsView.AllowUserToDeleteRows = false;
-            this.limsView.AllowUserToResizeRows = false;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.WhiteSmoke;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.limsView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
-            this.limsView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.limsView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.limsView.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.limsView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            this.limsView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.limsView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.limsView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.sample_name,
-            this.sample_status});
-            this.limsView.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.limsView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.limsView.Location = new System.Drawing.Point(3, 3);
-            this.limsView.MultiSelect = false;
-            this.limsView.Name = "limsView";
-            this.limsView.ReadOnly = true;
-            this.limsView.RowHeadersVisible = false;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.limsView.RowsDefaultCellStyle = dataGridViewCellStyle4;
-            this.limsView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.limsView.Size = new System.Drawing.Size(688, 342);
-            this.limsView.TabIndex = 26;
-            this.limsView.TabStop = false;
-            // 
-            // sample_name
-            // 
-            this.sample_name.HeaderText = "Sample";
-            this.sample_name.Name = "sample_name";
-            this.sample_name.ReadOnly = true;
-            // 
-            // sample_status
-            // 
-            this.sample_status.HeaderText = "Status";
-            this.sample_status.Name = "sample_status";
-            this.sample_status.ReadOnly = true;
-            // 
             // statusStrip1
             // 
             this.statusStrip1.BackColor = System.Drawing.SystemColors.MenuBar;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.status});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 554);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 537);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(726, 22);
             this.statusStrip1.TabIndex = 25;
@@ -650,7 +455,7 @@ namespace Minion.Forms
             this.TimeOfDay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.TimeOfDay.BackColor = System.Drawing.SystemColors.MenuBar;
             this.TimeOfDay.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TimeOfDay.Location = new System.Drawing.Point(510, 556);
+            this.TimeOfDay.Location = new System.Drawing.Point(510, 539);
             this.TimeOfDay.Name = "TimeOfDay";
             this.TimeOfDay.Size = new System.Drawing.Size(200, 15);
             this.TimeOfDay.TabIndex = 39;
@@ -666,19 +471,417 @@ namespace Minion.Forms
             // 
             this.checkThread.DoWork += new System.ComponentModel.DoWorkEventHandler(this.checkThread_DoWork);
             // 
+            // MinionControl
+            // 
+            this.MinionControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.MinionControl.Controls.Add(this.MainTab);
+            this.MinionControl.Controls.Add(this.CustomTab);
+            this.MinionControl.Controls.Add(this.tabPage4);
+            this.MinionControl.Controls.Add(this.tabPage5);
+            this.MinionControl.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MinionControl.Location = new System.Drawing.Point(0, 28);
+            this.MinionControl.Name = "MinionControl";
+            this.MinionControl.SelectedIndex = 0;
+            this.MinionControl.Size = new System.Drawing.Size(726, 508);
+            this.MinionControl.TabIndex = 40;
+            this.MinionControl.Selected += new System.Windows.Forms.TabControlEventHandler(this.MinionControl_Selected);
+            // 
+            // MainTab
+            // 
+            this.MainTab.Controls.Add(this.count_label);
+            this.MainTab.Controls.Add(this.mainProgressBar);
+            this.MainTab.Controls.Add(this.mainTerminal);
+            this.MainTab.Controls.Add(this.runs);
+            this.MainTab.Controls.Add(this.mainExecuteBtn);
+            this.MainTab.Controls.Add(this.runs_label);
+            this.MainTab.Controls.Add(this.ConnectionGroup);
+            this.MainTab.Controls.Add(this.statusGroup);
+            this.MainTab.Location = new System.Drawing.Point(4, 26);
+            this.MainTab.Name = "MainTab";
+            this.MainTab.Padding = new System.Windows.Forms.Padding(3);
+            this.MainTab.Size = new System.Drawing.Size(718, 478);
+            this.MainTab.TabIndex = 0;
+            this.MainTab.Text = "MAIN";
+            this.MainTab.UseVisualStyleBackColor = true;
+            // 
+            // count_label
+            // 
+            this.count_label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.count_label.AutoSize = true;
+            this.count_label.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.count_label.Location = new System.Drawing.Point(499, 169);
+            this.count_label.Name = "count_label";
+            this.count_label.Size = new System.Drawing.Size(56, 17);
+            this.count_label.TabIndex = 44;
+            this.count_label.Text = "Count: 0";
+            // 
+            // mainProgressBar
+            // 
+            this.mainProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.mainProgressBar.Cursor = System.Windows.Forms.Cursors.Default;
+            this.mainProgressBar.Location = new System.Drawing.Point(8, 453);
+            this.mainProgressBar.MarqueeAnimationSpeed = 1;
+            this.mainProgressBar.Maximum = 1;
+            this.mainProgressBar.Name = "mainProgressBar";
+            this.mainProgressBar.Size = new System.Drawing.Size(694, 19);
+            this.mainProgressBar.Step = 1;
+            this.mainProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.mainProgressBar.TabIndex = 40;
+            this.mainProgressBar.Visible = false;
+            // 
+            // mainTerminal
+            // 
+            this.mainTerminal.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.mainTerminal.BackColor = System.Drawing.SystemColors.Window;
+            this.mainTerminal.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mainTerminal.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.mainTerminal.Location = new System.Drawing.Point(8, 220);
+            this.mainTerminal.Name = "mainTerminal";
+            this.mainTerminal.ReadOnly = true;
+            this.mainTerminal.Size = new System.Drawing.Size(694, 234);
+            this.mainTerminal.TabIndex = 43;
+            this.mainTerminal.Text = "";
+            // 
+            // runs
+            // 
+            this.runs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.runs.BackColor = System.Drawing.SystemColors.Window;
+            this.runs.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.runs.Enabled = false;
+            this.runs.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.runs.FormattingEnabled = true;
+            this.runs.ItemHeight = 17;
+            this.runs.Location = new System.Drawing.Point(8, 189);
+            this.runs.Name = "runs";
+            this.runs.Size = new System.Drawing.Size(576, 25);
+            this.runs.Sorted = true;
+            this.runs.TabIndex = 42;
+            this.runs.SelectedIndexChanged += new System.EventHandler(this.runs_SelectedIndexChanged);
+            // 
+            // mainExecuteBtn
+            // 
+            this.mainExecuteBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.mainExecuteBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.mainExecuteBtn.Enabled = false;
+            this.mainExecuteBtn.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mainExecuteBtn.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.mainExecuteBtn.Location = new System.Drawing.Point(590, 189);
+            this.mainExecuteBtn.Name = "mainExecuteBtn";
+            this.mainExecuteBtn.Size = new System.Drawing.Size(112, 25);
+            this.mainExecuteBtn.TabIndex = 41;
+            this.mainExecuteBtn.Text = "EXECUTE";
+            this.mainExecuteBtn.UseVisualStyleBackColor = true;
+            this.mainExecuteBtn.Click += new System.EventHandler(this.mainExecuteBtn_Click);
+            // 
+            // runs_label
+            // 
+            this.runs_label.AutoSize = true;
+            this.runs_label.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.runs_label.Location = new System.Drawing.Point(14, 165);
+            this.runs_label.Name = "runs_label";
+            this.runs_label.Size = new System.Drawing.Size(52, 21);
+            this.runs_label.TabIndex = 39;
+            this.runs_label.Text = "RUNS";
+            // 
+            // CustomTab
+            // 
+            this.CustomTab.Controls.Add(this.customWorkflowBtn);
+            this.CustomTab.Controls.Add(this.label2);
+            this.CustomTab.Controls.Add(this.customExecuteBtn);
+            this.CustomTab.Controls.Add(this.button2);
+            this.CustomTab.Controls.Add(this.sampleList);
+            this.CustomTab.Controls.Add(this.customProgressBar);
+            this.CustomTab.Controls.Add(this.customTerminal);
+            this.CustomTab.Controls.Add(this.label5);
+            this.CustomTab.Location = new System.Drawing.Point(4, 26);
+            this.CustomTab.Name = "CustomTab";
+            this.CustomTab.Padding = new System.Windows.Forms.Padding(3);
+            this.CustomTab.Size = new System.Drawing.Size(718, 478);
+            this.CustomTab.TabIndex = 1;
+            this.CustomTab.Text = "CUSTOM";
+            this.CustomTab.UseVisualStyleBackColor = true;
+            // 
+            // customWorkflowBtn
+            // 
+            this.customWorkflowBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.customWorkflowBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.customWorkflowBtn.Enabled = false;
+            this.customWorkflowBtn.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.customWorkflowBtn.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.customWorkflowBtn.Location = new System.Drawing.Point(590, 17);
+            this.customWorkflowBtn.Name = "customWorkflowBtn";
+            this.customWorkflowBtn.Size = new System.Drawing.Size(112, 25);
+            this.customWorkflowBtn.TabIndex = 51;
+            this.customWorkflowBtn.Text = "WORKFLOW";
+            this.customWorkflowBtn.UseVisualStyleBackColor = true;
+            this.customWorkflowBtn.Click += new System.EventHandler(this.customWorkflowBtn_Click);
+            // 
+            // label2
+            // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label2.Location = new System.Drawing.Point(258, 133);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(196, 21);
+            this.label2.TabIndex = 50;
+            this.label2.Text = "Drag and Drop FASTQ files";
+            // 
+            // customExecuteBtn
+            // 
+            this.customExecuteBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.customExecuteBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.customExecuteBtn.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.customExecuteBtn.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.customExecuteBtn.Location = new System.Drawing.Point(590, 18);
+            this.customExecuteBtn.Name = "customExecuteBtn";
+            this.customExecuteBtn.Size = new System.Drawing.Size(112, 25);
+            this.customExecuteBtn.TabIndex = 46;
+            this.customExecuteBtn.Text = "EXECUTE";
+            this.customExecuteBtn.UseVisualStyleBackColor = true;
+            this.customExecuteBtn.Visible = false;
+            this.customExecuteBtn.Click += new System.EventHandler(this.customExecuteBtn_Click);
+            // 
+            // button2
+            // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button2.Enabled = false;
+            this.button2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.button2.Location = new System.Drawing.Point(537, 18);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(47, 25);
+            this.button2.TabIndex = 49;
+            this.button2.Text = "CLEAR";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // sampleList
+            // 
+            this.sampleList.AllowDrop = true;
+            this.sampleList.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.WhiteSmoke;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sampleList.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.sampleList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.sampleList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.sampleList.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.sampleList.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.sampleList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.sampleList.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.sampleList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.sampleList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.sName,
+            this.sDir});
+            this.sampleList.ContextMenuStrip = this.SampleListContextMenu;
+            this.sampleList.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.sampleList.Location = new System.Drawing.Point(8, 48);
+            this.sampleList.MultiSelect = false;
+            this.sampleList.Name = "sampleList";
+            this.sampleList.ReadOnly = true;
+            this.sampleList.RowHeadersVisible = false;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sampleList.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            this.sampleList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.sampleList.Size = new System.Drawing.Size(694, 166);
+            this.sampleList.TabIndex = 48;
+            this.sampleList.TabStop = false;
+            this.sampleList.DragDrop += new System.Windows.Forms.DragEventHandler(this.SampleList_DragDrop);
+            this.sampleList.DragEnter += new System.Windows.Forms.DragEventHandler(this.SampleList_DragEnter);
+            // 
+            // sName
+            // 
+            this.sName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.sName.FillWeight = 59.88024F;
+            this.sName.HeaderText = "Sample";
+            this.sName.Name = "sName";
+            this.sName.ReadOnly = true;
+            // 
+            // sDir
+            // 
+            this.sDir.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.sDir.FillWeight = 140.1198F;
+            this.sDir.HeaderText = "Location";
+            this.sDir.Name = "sDir";
+            this.sDir.ReadOnly = true;
+            // 
+            // SampleListContextMenu
+            // 
+            this.SampleListContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewInExplorerToolStripMenuItem,
+            this.deleteToolStripMenuItem});
+            this.SampleListContextMenu.Name = "SampleListContextMenu";
+            this.SampleListContextMenu.Size = new System.Drawing.Size(158, 48);
+            // 
+            // viewInExplorerToolStripMenuItem
+            // 
+            this.viewInExplorerToolStripMenuItem.Name = "viewInExplorerToolStripMenuItem";
+            this.viewInExplorerToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.viewInExplorerToolStripMenuItem.Text = "View in explorer";
+            this.viewInExplorerToolStripMenuItem.Click += new System.EventHandler(this.viewInExplorerToolStripMenuItem_Click);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            // 
+            // customProgressBar
+            // 
+            this.customProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.customProgressBar.Cursor = System.Windows.Forms.Cursors.Default;
+            this.customProgressBar.Location = new System.Drawing.Point(8, 453);
+            this.customProgressBar.MarqueeAnimationSpeed = 1;
+            this.customProgressBar.Maximum = 1;
+            this.customProgressBar.Name = "customProgressBar";
+            this.customProgressBar.Size = new System.Drawing.Size(694, 19);
+            this.customProgressBar.Step = 1;
+            this.customProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.customProgressBar.TabIndex = 45;
+            this.customProgressBar.Visible = false;
+            // 
+            // customTerminal
+            // 
+            this.customTerminal.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.customTerminal.BackColor = System.Drawing.SystemColors.Window;
+            this.customTerminal.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.customTerminal.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.customTerminal.Location = new System.Drawing.Point(8, 220);
+            this.customTerminal.Name = "customTerminal";
+            this.customTerminal.ReadOnly = true;
+            this.customTerminal.Size = new System.Drawing.Size(694, 234);
+            this.customTerminal.TabIndex = 47;
+            this.customTerminal.Text = "";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(8, 24);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(77, 21);
+            this.label5.TabIndex = 44;
+            this.label5.Text = "SAMPLES";
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.queueView);
+            this.tabPage4.Location = new System.Drawing.Point(4, 26);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(718, 478);
+            this.tabPage4.TabIndex = 2;
+            this.tabPage4.Text = "QUEUE";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // queueView
+            // 
+            this.queueView.AllowUserToAddRows = false;
+            this.queueView.AllowUserToDeleteRows = false;
+            this.queueView.AllowUserToResizeRows = false;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.WhiteSmoke;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.queueView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            this.queueView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.queueView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.queueView.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.queueView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.queueView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.queueView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.queueView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.sample_name,
+            this.sample_status});
+            this.queueView.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.queueView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.queueView.Location = new System.Drawing.Point(3, 3);
+            this.queueView.MultiSelect = false;
+            this.queueView.Name = "queueView";
+            this.queueView.ReadOnly = true;
+            this.queueView.RowHeadersVisible = false;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.queueView.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            this.queueView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.queueView.Size = new System.Drawing.Size(712, 472);
+            this.queueView.TabIndex = 27;
+            this.queueView.TabStop = false;
+            // 
+            // sample_name
+            // 
+            this.sample_name.HeaderText = "Sample";
+            this.sample_name.Name = "sample_name";
+            this.sample_name.ReadOnly = true;
+            // 
+            // sample_status
+            // 
+            this.sample_status.HeaderText = "Status";
+            this.sample_status.Name = "sample_status";
+            this.sample_status.ReadOnly = true;
+            // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.historyDB);
+            this.tabPage5.Location = new System.Drawing.Point(4, 26);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage5.Size = new System.Drawing.Size(718, 478);
+            this.tabPage5.TabIndex = 3;
+            this.tabPage5.Text = "HISTORY";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // historyDB
+            // 
+            this.historyDB.AllowUserToAddRows = false;
+            this.historyDB.AllowUserToDeleteRows = false;
+            this.historyDB.AllowUserToResizeRows = false;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.historyDB.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+            this.historyDB.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.historyDB.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.historyDB.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.historyDB.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.historyDB.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.historyDB.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.historyDB.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.historyDB.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.historyDB.Location = new System.Drawing.Point(3, 3);
+            this.historyDB.MultiSelect = false;
+            this.historyDB.Name = "historyDB";
+            this.historyDB.ReadOnly = true;
+            this.historyDB.RowHeadersVisible = false;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.historyDB.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            this.historyDB.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.historyDB.Size = new System.Drawing.Size(712, 472);
+            this.historyDB.TabIndex = 26;
+            this.historyDB.TabStop = false;
+            // 
             // main
             // 
             this.AcceptButton = this.ConnectButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(726, 576);
+            this.ClientSize = new System.Drawing.Size(726, 559);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.TimeOfDay);
-            this.Controls.Add(this.WorkflowPanel);
-            this.Controls.Add(this.ConnectionGroup);
-            this.Controls.Add(this.statusGroup);
             this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.MinionControl);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "main";
@@ -693,15 +896,19 @@ namespace Minion.Forms
             ((System.ComponentModel.ISupportInitialize)(this.SaveIPButton)).EndInit();
             this.statusGroup.ResumeLayout(false);
             this.statusGroup.PerformLayout();
-            this.HistoryTab.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.history)).EndInit();
-            this.AnalysisTab.ResumeLayout(false);
-            this.AnalysisTab.PerformLayout();
-            this.WorkflowPanel.ResumeLayout(false);
-            this.TrackTab.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.limsView)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.MinionControl.ResumeLayout(false);
+            this.MainTab.ResumeLayout(false);
+            this.MainTab.PerformLayout();
+            this.CustomTab.ResumeLayout(false);
+            this.CustomTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.sampleList)).EndInit();
+            this.SampleListContextMenu.ResumeLayout(false);
+            this.tabPage4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.queueView)).EndInit();
+            this.tabPage5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.historyDB)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -716,7 +923,6 @@ namespace Minion.Forms
         public System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem aboutMinionToolStripMenuItem;
-        public System.Windows.Forms.ToolStripMenuItem aboutNextGENeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem casavaGuideToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem contactToolStripMenuItem;
         public System.Windows.Forms.GroupBox ConnectionGroup;
@@ -733,16 +939,6 @@ namespace Minion.Forms
         public System.Windows.Forms.Button DisconnectBtn;
         public System.Windows.Forms.Label Disconnected;
         public System.Windows.Forms.Label Connected;
-        private System.Windows.Forms.ProgressBar progressBar;
-        private System.Windows.Forms.TabPage HistoryTab;
-        public System.Windows.Forms.DataGridView history;
-        private System.Windows.Forms.TabPage AnalysisTab;
-        private System.Windows.Forms.ComboBox runs;
-        public System.Windows.Forms.Button ExecuteButton;
-        public System.Windows.Forms.Label runs_label;
-        private System.Windows.Forms.TabControl WorkflowPanel;
-        private System.Windows.Forms.RichTextBox terminal;
-        public System.Windows.Forms.Label count_label;
         public System.Windows.Forms.Label TimeOfDay;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ToolStripMenuItem serversToolStripMenuItem;
@@ -752,9 +948,34 @@ namespace Minion.Forms
         public System.Windows.Forms.ToolStripStatusLabel status;
         private System.ComponentModel.BackgroundWorker terminalThread;
         private System.ComponentModel.BackgroundWorker checkThread;
-        private System.Windows.Forms.TabPage TrackTab;
-        public System.Windows.Forms.DataGridView limsView;
+        private System.Windows.Forms.ToolStripMenuItem usersToolStripMenuItem;
+        private System.Windows.Forms.TabControl MinionControl;
+        private System.Windows.Forms.TabPage MainTab;
+        private System.Windows.Forms.TabPage CustomTab;
+        private System.Windows.Forms.ContextMenuStrip SampleListContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem viewInExplorerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.TabPage tabPage5;
+        public System.Windows.Forms.DataGridView queueView;
         private System.Windows.Forms.DataGridViewTextBoxColumn sample_name;
         private System.Windows.Forms.DataGridViewTextBoxColumn sample_status;
+        public System.Windows.Forms.DataGridView historyDB;
+        public System.Windows.Forms.Label count_label;
+        private System.Windows.Forms.ProgressBar mainProgressBar;
+        private System.Windows.Forms.RichTextBox mainTerminal;
+        private System.Windows.Forms.ComboBox runs;
+        public System.Windows.Forms.Button mainExecuteBtn;
+        public System.Windows.Forms.Label runs_label;
+        public System.Windows.Forms.Button customExecuteBtn;
+        public System.Windows.Forms.Button button2;
+        public System.Windows.Forms.DataGridView sampleList;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sDir;
+        private System.Windows.Forms.ProgressBar customProgressBar;
+        private System.Windows.Forms.RichTextBox customTerminal;
+        public System.Windows.Forms.Label label5;
+        public System.Windows.Forms.Label label2;
+        public System.Windows.Forms.Button customWorkflowBtn;
     }
 }

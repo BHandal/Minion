@@ -1,6 +1,6 @@
 ﻿namespace Minion.Forms
 {
-    partial class config
+    partial class workflow
     {
         /// <summary>
         /// Required designer variable.
@@ -31,12 +31,12 @@
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Platform");
             System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Chemistry");
             System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Run");
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(config));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(workflow));
             this.noBtn = new System.Windows.Forms.Button();
             this.cancelBtn = new System.Windows.Forms.Button();
             this.yesbtn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.config_tree = new System.Windows.Forms.TreeView();
+            this.workflowTree = new System.Windows.Forms.TreeView();
             this.SuspendLayout();
             // 
             // noBtn
@@ -99,15 +99,15 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "Is this configuration correct?";
             // 
-            // config_tree
+            // workflowTree
             // 
-            this.config_tree.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.workflowTree.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.config_tree.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.config_tree.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.config_tree.Location = new System.Drawing.Point(0, 0);
-            this.config_tree.Name = "config_tree";
+            this.workflowTree.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.workflowTree.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.workflowTree.Location = new System.Drawing.Point(0, 0);
+            this.workflowTree.Name = "workflowTree";
             treeNode1.Checked = true;
             treeNode1.Name = "platform";
             treeNode1.Text = "Platform";
@@ -117,14 +117,14 @@
             treeNode3.Checked = true;
             treeNode3.Name = "run";
             treeNode3.Text = "Run";
-            this.config_tree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            this.workflowTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2,
             treeNode3});
-            this.config_tree.Size = new System.Drawing.Size(436, 393);
-            this.config_tree.TabIndex = 5;
+            this.workflowTree.Size = new System.Drawing.Size(436, 393);
+            this.workflowTree.TabIndex = 5;
             // 
-            // config
+            // workflow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -134,14 +134,14 @@
             this.Controls.Add(this.yesbtn);
             this.Controls.Add(this.cancelBtn);
             this.Controls.Add(this.noBtn);
-            this.Controls.Add(this.config_tree);
+            this.Controls.Add(this.workflowTree);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "config";
+            this.Name = "workflow";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Minion - Analysis Configuration";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Load += new System.EventHandler(this.config_Load);
+            this.Load += new System.EventHandler(this.workflow_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -153,6 +153,6 @@
         private System.Windows.Forms.Button cancelBtn;
         private System.Windows.Forms.Button yesbtn;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TreeView config_tree;
+        private System.Windows.Forms.TreeView workflowTree;
     }
 }

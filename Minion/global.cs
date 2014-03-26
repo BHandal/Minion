@@ -3,6 +3,8 @@ using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
+using System.Data.SqlClient;
 
 
 namespace Minion
@@ -12,17 +14,17 @@ namespace Minion
         /// <summary>
         /// Server side connectivity info
         /// </summary>
-
+        public static string DIRECTORY { get { return ConfigurationManager.AppSettings["DIRECTORY"]; } }
         private static string host = "";
-        private static string type = "";
+        private static string stype = "";
         private static string usr = "";
         private static string pass = "";
         private static string status = "";
 
         public static string ssh_type
         {
-            get { return type; }
-            set { type = value; }
+            get { return stype; }
+            set { stype = value; }
         }
         public static string ssh_host
         {
@@ -48,6 +50,7 @@ namespace Minion
         /// <summary>
         /// analysis info
         /// </summary>
+        private static string rtype = "";
         private static string date = "";
         private static string duration = "";
         private static string dir = "";
@@ -70,6 +73,11 @@ namespace Minion
         {
             get { return val_file_name2; }
             set { val_file_name2 = value; }
+        }
+        public static string run_type
+        {
+            get { return rtype; }
+            set { rtype = value; }
         }
         public static string run_date
         {

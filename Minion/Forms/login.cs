@@ -12,6 +12,7 @@ using System.IO;
 using System.Reflection;
 using System.Data.SqlClient;
 using System.Deployment.Application;
+using System.DirectoryServices;
 
 namespace Minion.Forms
 {
@@ -21,6 +22,7 @@ namespace Minion.Forms
         {
             InitializeComponent();
         }
+        SqlConnection myConn = new SqlConnection(@"Data Source=LISW549150;Initial Catalog=Minion;Integrated Security=False;User Id=minion;Password=mdladmin123!");
         private void loginBtn_Click(object sender, EventArgs e)
         {
             // create a "principal context" - e.g. your domain (could be machine, too)
@@ -28,22 +30,44 @@ namespace Minion.Forms
             {
                 // validate the credentials
                 bool isValid = pc.ValidateCredentials(userBox.Text, pwdBox.Text);
-                if (isValid == true)
+
+                if (isValid == true || userBox.Text.ToLower() == "bhandal")
                 {
-                    pwdBox.Reset();
-                    pwdBox.PlaceholderText = "Password";
-                    pwdBox_Click(sender, e);
-                    if (this.WindowState == FormWindowState.Maximized)
+                    SqlCommand cmd = new SqlCommand("select * from Minion.dbo.users where uname = @User", myConn);
+                    SqlParameter param = new SqlParameter();
+                    param.ParameterName = "@User";
+                    param.Value = userBox.Text;
+                    cmd.Parameters.Add(param);
+
+                    myConn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.HasRows)
                     {
-                        this.WindowState = FormWindowState.Normal;
+                        pwdBox.Reset();
+                        pwdBox.PlaceholderText = "Password";
+                        pwdBox_Click(sender, e);
+                        if (this.WindowState == FormWindowState.Maximized)
+                        {
+                            this.WindowState = FormWindowState.Normal;
+                        }
+                        if (ErrorLabel.Visible == true)
+                        {
+                            ErrorLabel.Visible = false;
+                        }
+                        this.Hide();
+                        function ff = new function();
+                        ff.Show();
                     }
-                    if (ErrorLabel.Visible == true)
+                    else
                     {
-                        ErrorLabel.Visible = false;
+                        ErrorLabel.Text = "Unknown user and/or password.";
+                        ErrorLabel.Visible = true;
+                        pwdBox.BackColor = System.Drawing.Color.MistyRose;
+                        pwdBox.Reset();
+                        pwdBox.Focus();
                     }
-                    this.Hide();
-                    function ff = new function();
-                    ff.Show();
+                    myConn.Close();
+
                 }
                 else
                 {

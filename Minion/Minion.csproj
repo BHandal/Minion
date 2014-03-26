@@ -12,10 +12,10 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
-    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
     <PublishUrl>C:\Program Files %28x86%29\Apache Software Foundation\Apache2.2\htdocs\Minion\repo\</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
+    <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
@@ -23,14 +23,17 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>http://lisw549150/minion/repo/</InstallUrl>
     <SupportUrl>https://github.com/BHandal/Minion/issues</SupportUrl>
     <ProductName>Minion</ProductName>
-    <PublisherName>UTMDACC MDL Development Team</PublisherName>
+    <PublisherName>UTMDACC Molecular Diagnostic Laboratory</PublisherName>
     <SuiteName>NGS Tools</SuiteName>
-    <ApplicationRevision>0</ApplicationRevision>
+    <TrustUrlParameters>true</TrustUrlParameters>
+    <ApplicationRevision>2</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <UseApplicationTrust>false</UseApplicationTrust>
+    <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -61,9 +64,20 @@
     <StartupObject>
     </StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>8DDD9AE2869430D4466BA5090662F2A2C7E6DF14</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>Minion_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="MongoDB.Bson">
       <HintPath>..\packages\mongocsharpdriver.1.8.3\lib\net35\MongoDB.Bson.dll</HintPath>
     </Reference>
@@ -75,6 +89,7 @@
       <HintPath>..\packages\SSH.NET.2013.4.7\lib\net40\Renci.SshNet.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.DirectoryServices.AccountManagement" />
@@ -92,11 +107,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Forms\config.cs">
+    <Compile Include="Forms\workflow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\config.Designer.cs">
-      <DependentUpon>config.cs</DependentUpon>
+    <Compile Include="Forms\workflow.Designer.cs">
+      <DependentUpon>workflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\users.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\users.Designer.cs">
+      <DependentUpon>users.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\environment.cs">
       <SubType>Form</SubType>
@@ -160,8 +181,11 @@
       <DependentUpon>servers.cs</DependentUpon>
     </Compile>
     <Compile Include="TextBoxStreamWriter.cs" />
-    <EmbeddedResource Include="Forms\config.resx">
-      <DependentUpon>config.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\workflow.resx">
+      <DependentUpon>workflow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\users.resx">
+      <DependentUpon>users.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\environment.resx">
       <DependentUpon>environment.cs</DependentUpon>
@@ -192,6 +216,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Minion_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
@@ -271,6 +296,9 @@
       <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

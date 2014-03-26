@@ -189,8 +189,8 @@ namespace Minion.Forms
 
         #region MISC Variables
         public static string ip;
-        SqlConnection myConn = new SqlConnection(@"Data Source=LISW549150;Initial Catalog=Minion;Integrated Security=True");
-        SqlConnection fillConn = new SqlConnection(@"Data Source=LISW549150;Initial Catalog=Minion;Integrated Security=True");
+        SqlConnection myConn = new SqlConnection(@"Data Source=LISW549150;Initial Catalog=Minion;Integrated Security=False;User Id=minion;Password=mdladmin123!");
+        SqlConnection fillConn = new SqlConnection(@"Data Source=LISW549150;Initial Catalog=Minion;Integrated Security=False;User Id=minion;Password=mdladmin123!");
         private void dbChangeComplete()
         {
             pName.Text = String.Empty;
