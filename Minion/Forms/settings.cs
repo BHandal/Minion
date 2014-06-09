@@ -15,6 +15,11 @@ namespace Minion.Forms
         public settings()
         {
             InitializeComponent();
+            if (Properties.Settings.Default.type == "custom")
+            {
+                Properties.Settings.Default.run = "Custom analysis";
+                
+            }
             this.Text = "Minion - "+Properties.Settings.Default.run +" Settings";
         }
         OpenFileDialog ofd = new OpenFileDialog();

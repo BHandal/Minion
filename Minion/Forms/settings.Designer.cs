@@ -51,12 +51,12 @@
             this.demultiplex = new System.Windows.Forms.CheckBox();
             this.dual_index = new System.Windows.Forms.CheckBox();
             this.variant_next = new System.Windows.Forms.Button();
-            this.r_adapter = new Demo.PlaceholderTextBox();
-            this.f_adapter = new Demo.PlaceholderTextBox();
             this.variant_panel = new System.Windows.Forms.Panel();
             this.align_next = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.variant_caller = new System.Windows.Forms.ComboBox();
+            this.r_adapter = new Demo.PlaceholderTextBox();
+            this.f_adapter = new Demo.PlaceholderTextBox();
             this.align_panel.SuspendLayout();
             this.variant_panel.SuspendLayout();
             this.SuspendLayout();
@@ -368,30 +368,6 @@
             this.variant_next.UseVisualStyleBackColor = false;
             this.variant_next.Click += new System.EventHandler(this.variant_next_Click);
             // 
-            // r_adapter
-            // 
-            this.r_adapter.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.r_adapter.Enabled = false;
-            this.r_adapter.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Italic);
-            this.r_adapter.ForeColor = System.Drawing.Color.LightGray;
-            this.r_adapter.Location = new System.Drawing.Point(207, 125);
-            this.r_adapter.Name = "r_adapter";
-            this.r_adapter.PlaceholderText = "Reverse";
-            this.r_adapter.Size = new System.Drawing.Size(156, 25);
-            this.r_adapter.TabIndex = 56;
-            // 
-            // f_adapter
-            // 
-            this.f_adapter.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.f_adapter.Enabled = false;
-            this.f_adapter.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Italic);
-            this.f_adapter.ForeColor = System.Drawing.Color.LightGray;
-            this.f_adapter.Location = new System.Drawing.Point(207, 94);
-            this.f_adapter.Name = "f_adapter";
-            this.f_adapter.PlaceholderText = "Forward";
-            this.f_adapter.Size = new System.Drawing.Size(156, 25);
-            this.f_adapter.TabIndex = 55;
-            // 
             // variant_panel
             // 
             this.variant_panel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -463,6 +439,30 @@
             this.variant_caller.Size = new System.Drawing.Size(230, 25);
             this.variant_caller.TabIndex = 42;
             this.variant_caller.SelectedIndexChanged += new System.EventHandler(this.variant_caller_SelectedIndexChanged);
+            // 
+            // r_adapter
+            // 
+            this.r_adapter.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.r_adapter.Enabled = false;
+            this.r_adapter.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Italic);
+            this.r_adapter.ForeColor = System.Drawing.Color.LightGray;
+            this.r_adapter.Location = new System.Drawing.Point(207, 125);
+            this.r_adapter.Name = "r_adapter";
+            this.r_adapter.PlaceholderText = "Reverse";
+            this.r_adapter.Size = new System.Drawing.Size(156, 25);
+            this.r_adapter.TabIndex = 56;
+            // 
+            // f_adapter
+            // 
+            this.f_adapter.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.f_adapter.Enabled = false;
+            this.f_adapter.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Italic);
+            this.f_adapter.ForeColor = System.Drawing.Color.LightGray;
+            this.f_adapter.Location = new System.Drawing.Point(207, 94);
+            this.f_adapter.Name = "f_adapter";
+            this.f_adapter.PlaceholderText = "Forward";
+            this.f_adapter.Size = new System.Drawing.Size(156, 25);
+            this.f_adapter.TabIndex = 55;
             // 
             // settings
             // 

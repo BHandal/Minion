@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
 using System.Data.SqlClient;
+using Tamir.SharpSsh;
 
 
 namespace Minion
@@ -20,7 +21,13 @@ namespace Minion
         private static string usr = "";
         private static string pass = "";
         private static string status = "";
+        private static bool auth;
 
+        public static bool auth_server
+        {
+            get { return auth; }
+            set { auth = value; }
+        }
         public static string ssh_type
         {
             get { return stype; }

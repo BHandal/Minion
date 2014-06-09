@@ -26,9 +26,7 @@ namespace Minion
                 {
                     return Assembly.GetExecutingAssembly().GetName().Version;
                 }
-
             }
-
         }
         public static string AssemblyProduct
         {
@@ -56,10 +54,5 @@ namespace Minion
         }
         #endregion
 
-
-
-
-
     }
-
 }

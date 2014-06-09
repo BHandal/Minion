@@ -81,9 +81,9 @@ namespace Minion.Forms
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(11, 196);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(60, 16);
+            this.label5.Size = new System.Drawing.Size(43, 16);
             this.label5.TabIndex = 96;
-            this.label5.Text = "Platform:";
+            this.label5.Text = "Type:";
             // 
             // richTextBox1
             // 
@@ -219,7 +219,7 @@ namespace Minion.Forms
             this.pDir.IsItalics = false;
             this.pDir.Location = new System.Drawing.Point(13, 168);
             this.pDir.Name = "pDir";
-            this.pDir.PlaceholderText = "eg. Z:\\";
+            this.pDir.PlaceholderText = "/illumina/runs";
             this.pDir.Size = new System.Drawing.Size(182, 25);
             this.pDir.TabIndex = 90;
             // 

@@ -58,7 +58,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>minion_hat.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>
@@ -107,6 +108,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\auth_servers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\auth_servers.Designer.cs">
+      <DependentUpon>auth_servers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\workflow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -156,7 +163,6 @@
       <DependentUpon>main.cs</DependentUpon>
     </Compile>
     <Compile Include="global.cs" />
-    <Compile Include="mongodb.cs" />
     <Compile Include="PlaceholderTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -180,7 +186,9 @@
     <Compile Include="Forms\servers.Designer.cs">
       <DependentUpon>servers.cs</DependentUpon>
     </Compile>
-    <Compile Include="TextBoxStreamWriter.cs" />
+    <EmbeddedResource Include="Forms\auth_servers.resx">
+      <DependentUpon>auth_servers.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\workflow.resx">
       <DependentUpon>workflow.cs</DependentUpon>
     </EmbeddedResource>
@@ -234,7 +242,6 @@
   <ItemGroup>
     <None Include="Resources\glyphicons_032_wifi_alt.png" />
     <None Include="Resources\glyphicons_154_more_windows.png" />
-    <Content Include="minion_hat.ico" />
     <None Include="Resources\sequipt-hat-50x38.png" />
     <None Include="Resources\sequipt-hat-168x127.png" />
     <None Include="Resources\sequencing_icon1.png" />
@@ -243,14 +250,14 @@
     <None Include="Resources\glyphicons_050_link.png" />
     <None Include="Resources\Branch-Engineering.png" />
     <None Include="Resources\Data-Edit.png" />
-    <None Include="Resources\Disconnected.png" />
-    <None Include="Resources\Disconnected2.png" />
     <None Include="Resources\ILLUMINA.jpg" />
     <None Include="Resources\IonTorrent.png" />
     <None Include="Resources\NextGENe.jpg" />
     <None Include="Resources\Robot.png" />
     <None Include="Resources\Save.png" />
     <None Include="Resources\Printer.png" />
+    <None Include="Resources\disconnected.png" />
+    <None Include="Resources\connected.png" />
     <Content Include="Resources\sequencing_icon.ico" />
   </ItemGroup>
   <ItemGroup>

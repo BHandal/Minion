@@ -8,6 +8,7 @@ using System.Text;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+//SharpSSH is a third party tool used to ssh to a server using windows forms. 
 using Tamir.SharpSsh;
 using System.Threading;
 
@@ -22,28 +23,33 @@ namespace Minion.Forms
             terminalThread.WorkerReportsProgress = true;
             checkThread.WorkerSupportsCancellation = true;
         }
+        //String builder allows for appending multiple items to a constantly growing string based upon user inputs. So as things 
+        //like aligners and variant callers are chosen the variable run_cmd will continue to grow based upon the input.
         StringBuilder run_cmd;
+
+        //This is the same type of variable as seen in the loin form to connect to the minion database. This will basically be used for tracking samples and 
+        //adding/editing server information to connect to through minion.
+        SqlConnection myConn = new SqlConnection(@"Data Source=LISW549150;Initial Catalog=Minion;Integrated Security=False;User Id=minion;Password=mdladmin123!");
+       
         #region Defaults
+        //This defaults are basically the visual effects that appear on the form based upon when a user is connected to a server or disconnectedLabel. Also, when
+        //when a user is analyzing sample(s) or simply idle.
         public void connected()
         {
             abort = true;
             //Usage
             ConnectionGroup.Enabled = false;
             DisconnectBtn.Enabled = true;
-            runs.Enabled = true;
+            stdRunsList.Enabled = true;
             //Visbility
             ConnectionError.Visible = false;
-            Connected.Show();
-            Disconnected.Hide();
-            //Form Size
-            Size = new System.Drawing.Size(742, 597);
+            this.statusLabel.Image = global::Minion.Properties.Resources.connected;
             //Text changes
             runs_label.Text = Properties.Settings.Default.server_name.ToUpper() + " RUNS";
             status.Text = "Connected";
             status.ForeColor = System.Drawing.Color.DarkGreen;
             global.ssh_status = "connected";
             settingsToolStripMenuItem.Enabled = true;
-
         }
         public void disconnected()
         {
@@ -51,15 +57,14 @@ namespace Minion.Forms
             //Usage
             ConnectionGroup.Enabled = true;
             DisconnectBtn.Enabled = false;
-            runs.Enabled = false;
+            stdRunsList.Enabled = false;
             mainExecuteBtn.Enabled = false;
             //Visbility
-            runs.SelectedIndex = -1;
-            Connected.Hide();
-            Disconnected.Show();
+            stdRunsList.SelectedIndex = -1;
+            this.statusLabel.Image = global::Minion.Properties.Resources.disconnected;
             mainProgressBar.Visible = false;
             //Form Size
-            this.Size = new System.Drawing.Size(742, 276);
+            this.Size = new System.Drawing.Size(742, 297);
             //Text changes
             status.Text = "Disconnected";
             status.ForeColor = System.Drawing.Color.Red;
@@ -68,13 +73,19 @@ namespace Minion.Forms
             ipBox.ResetText();
             usrBox.ResetText();
             pwdBox.ResetText();
-            runs.Items.Clear();
+            stdRunsList.Items.Clear();
             mainExecuteBtn.Text = "EXECUTE";
+            customExecuteBtn.Text = "WORKFLOW";
+            this.ctmSampleList.Rows.Clear();
+            label2.Visible = true;
+            button2.Enabled = false;
+            Minion.Properties.Settings.Default.Reset();
+            Minion.Properties.Settings.Default.Save();
+            customExecuteBtn.Enabled = false;
 
             global.ssh_status = "disconnected";
             default_settings();
             settingsToolStripMenuItem.Enabled = false;
-
         }
         public void startAnalysis()
         {
@@ -83,10 +94,8 @@ namespace Minion.Forms
             status.ForeColor = System.Drawing.Color.Black;
             mainExecuteBtn.Text = "CANCEL";
             customExecuteBtn.Text = "CANCEL";
-            customWorkflowBtn.Enabled = false;
-            customWorkflowBtn.Visible = false;
-            customExecuteBtn.Visible = true;
-            runs.Enabled = false;
+            customExecuteBtn.Enabled = true;
+            stdRunsList.Enabled = false;
 
         }
         public void endAnalysis()
@@ -108,12 +117,12 @@ namespace Minion.Forms
                     status.Text = "Analysis succeeded!";
                     status.ForeColor = System.Drawing.Color.DarkGreen;
                 }
-                runs.SelectedIndex = -1;
+                stdRunsList.SelectedIndex = -1;
                 mainExecuteBtn.Cursor = Cursors.Hand;
                 mainExecuteBtn.Text = "EXECUTE";
                 mainExecuteBtn.Enabled = false;
                 mainProgressBar.Visible = false;
-                runs.Enabled = true;              
+                stdRunsList.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -184,7 +193,7 @@ namespace Minion.Forms
                     while (myReader.Read())
                     {
                         global.ssh_type = myReader["type"].ToString().ToLower();
-                        
+
                         string tmpIP = myReader["ip"].ToString();
                         Properties.Settings.Default.server_dir = myReader["dir"].ToString();
                         this.BeginInvoke((MethodInvoker)delegate { ipBox.Text = tmpIP; });
@@ -217,9 +226,9 @@ namespace Minion.Forms
         }
         public void runHistory()
         {
-            string Query = "insert into Minion.dbo.history (server_ip,server_name,run,platform,chemistry,aligner,variant_caller,tophat2,tophat_fusion,breakdancer,cnvseq,pindel,date,duration,tech,cmd) values('" 
-                + global.ssh_host + "','" +Properties.Settings.Default.server_name + "','" + Properties.Settings.Default.run
-                    + "',' " + Properties.Settings.Default.platform + "',' " + Properties.Settings.Default.chemistry 
+            string Query = "insert into Minion.dbo.history (server_ip,server_name,run,platform,chemistry,aligner,variant_caller,tophat2,tophat_fusion,breakdancer,cnvseq,pindel,date,duration,tech,cmd) values('"
+                + global.ssh_host + "','" + Properties.Settings.Default.server_name + "','" + Properties.Settings.Default.run
+                    + "',' " + Properties.Settings.Default.platform + "',' " + Properties.Settings.Default.chemistry
                         + " ','" + Properties.Settings.Default.aligner + "','" + Properties.Settings.Default.variant_caller
                             + "','" + Properties.Settings.Default.tophat + "','" + Properties.Settings.Default.tophat_fusion
                             + "','" + Properties.Settings.Default.breakdancer + "','" + Properties.Settings.Default.cnvseq
@@ -244,7 +253,7 @@ namespace Minion.Forms
             SqlDataReader myReader;
             myConn.Open();
             myReader = cmdDataBase.ExecuteReader();
-            while (myReader.Read()) {  }
+            while (myReader.Read()) { }
             myConn.Close();
 
             fill_history();
@@ -255,25 +264,32 @@ namespace Minion.Forms
         {
             if (analysis_status == "cancel")
             {
-                mainTerminal.Clear();
-                mainTerminal.AppendText("Analysis cancelled on " + Properties.Settings.Default.run);
+                OutputTerminal.Clear();
+                OutputTerminal.AppendText("Analysis cancelled on " + Properties.Settings.Default.run);
             }
             else if (analysis_status == "error")
             {
-                mainTerminal.Clear();
-                mainTerminal.AppendText("Analysis error on " + Properties.Settings.Default.run);
+                OutputTerminal.Clear();
+                OutputTerminal.AppendText("Analysis error on " + Properties.Settings.Default.run);
             }
             else
             {
-                mainTerminal.Clear();
-                mainTerminal.AppendText("Analysis completed on " + Properties.Settings.Default.run);
+                OutputTerminal.Clear();
+                OutputTerminal.AppendText("Analysis completed on " + Properties.Settings.Default.run);
             }
 
         }
         #endregion
 
         #region Form Handling
-
+        public static void EnableTab(TabPage page, bool enable)
+        {
+            foreach (Control ctl in page.Controls) ctl.Enabled = true;
+        }
+        public static void DisableTab(TabPage page, bool enable)
+        {
+            foreach (Control ctl in page.Controls) ctl.Enabled = false;
+        }
         private void main_Load(object sender, EventArgs e)
         {
             status.Text = "Disconnected";
@@ -283,10 +299,10 @@ namespace Minion.Forms
             _Timer.Interval = 1000;
             _Timer.Tick += new EventHandler(_Timer_Tick);
             _Timer.Start();
-            this.Size = new System.Drawing.Size(742, 276);
-             
+            this.Size = new System.Drawing.Size(742, 297);
             fill_ipBox();
             fill_history();
+            
         }
         private bool form_isexiting;
         private void main_FormClosing(object sender, FormClosingEventArgs e)
@@ -306,7 +322,7 @@ namespace Minion.Forms
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (dialogResult == DialogResult.Yes)
-                {                   
+                {
                     if (global.ssh_status == "connected")
                     {
                         try
@@ -328,10 +344,10 @@ namespace Minion.Forms
                 }
             }
         }
-        #endregion      
+        #endregion
 
         #region Buttons
-      
+
         private void ConnectButton_Click(object sender, EventArgs e)
         {
             if (String.IsNullOrWhiteSpace(ipBox.Text) || String.IsNullOrWhiteSpace(usrBox.Text) || String.IsNullOrWhiteSpace(pwdBox.Text))
@@ -344,14 +360,14 @@ namespace Minion.Forms
                 global.ssh_host = ipBox.Text;
                 global.ssh_usr = usrBox.Text.ToLower();
                 global.ssh_pass = pwdBox.Text;
-                this.runs.Items.Clear();
-                ssh_command("list dir", global.ssh_host, global.ssh_usr, global.ssh_pass, Properties.Settings.Default.server_dir); 
+                this.stdRunsList.Items.Clear();
+                ssh_command("list dir", global.ssh_host, global.ssh_usr, global.ssh_pass, Properties.Settings.Default.server_dir);
             }
         }
         private void DisconnectBtn_Click(object sender, EventArgs e)
         {
             if (terminalThread.IsBusy) { mainExecuteBtn_Click(sender, e); }
-            disconnected(); 
+            disconnected();
         }
         private void SaveIPButton_Click(object sender, EventArgs e)
         {
@@ -364,12 +380,12 @@ namespace Minion.Forms
                 }
             }
         }
-        private void mainExecuteBtn_Click(object sender, EventArgs e)
+        public void mainExecuteBtn_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.type = "main";
             if (mainExecuteBtn.Text == "EXECUTE")
             {
-                DialogResult dialogResult = MessageBox.Show("Ready to analyze " + Properties.Settings.Default.run + "? \r\n\n" + run_cmd.ToString(), "SEQuipt - Checkpoint", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult dialogResult = MessageBox.Show("Ready to analyze " + Properties.Settings.Default.run + "? \r\n\n" + run_cmd.ToString(), "Minion - Checkpoint", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dialogResult == DialogResult.Yes)
                 {
                     global.run_date = DateTime.Now.ToString();
@@ -383,7 +399,7 @@ namespace Minion.Forms
             }
             else if (mainExecuteBtn.Text == "CANCEL")
             {
-                DialogResult dialogResult = MessageBox.Show("Are you sure you want to cancel analysis on " + Properties.Settings.Default.run + "?", "SEQuipt - Important Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult dialogResult = MessageBox.Show("Are you sure you want to cancel analysis on " + Properties.Settings.Default.run + "?", "Minion - Important Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dialogResult == DialogResult.Yes)
                 {
                     while (true)
@@ -391,7 +407,7 @@ namespace Minion.Forms
                         if (terminalThread.IsBusy)
                         {
                             run_cmd = new StringBuilder();
-                            run_cmd.Append("kill -9 `ps aux | grep sequipt.py | awk '{print $2}'`]");
+                            run_cmd.Append("kill -2 `ps aux | grep minion.py | awk '{print $2}'`");
                             ssh_command("kill", global.ssh_host, global.ssh_usr, global.ssh_pass, run_cmd.ToString());
                             terminalThread.CancelAsync();
                         }
@@ -413,10 +429,10 @@ namespace Minion.Forms
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            if (runs.SelectedIndex > -1)
+            if (stdRunsList.SelectedIndex > -1)
             {
                 Properties.Settings.Default.platform = global.ssh_type;
-                Properties.Settings.Default.run = runs.SelectedItem.ToString();
+                Properties.Settings.Default.run = stdRunsList.SelectedItem.ToString();
 
                 settings SF = new settings();
                 SF.ShowDialog();
@@ -444,7 +460,7 @@ namespace Minion.Forms
 
             myConn.Open();
             SqlDataReader reader = cmd.ExecuteReader();
-            while(reader.Read())
+            while (reader.Read())
             {
                 if (reader["type"].ToString() == "admin")
                 {
@@ -508,7 +524,7 @@ namespace Minion.Forms
             while (!abort)
             {
                 stdout = ssh.ReadResponse();
-                mainTerminal.BeginInvoke(new TerminalDelegate(redirectOutput), new string[] { stdout });
+                OutputTerminal.BeginInvoke(new TerminalDelegate(redirectOutput), new string[] { stdout });
             }
             if (worker.CancellationPending)
             {
@@ -521,7 +537,7 @@ namespace Minion.Forms
         private void terminalThread_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             abort = true;
-            checkThread.CancelAsync();
+            
             if (e.Cancelled)
             {
                 global.run_duration = "cancel";
@@ -555,6 +571,7 @@ namespace Minion.Forms
                 if (ssh.ReadByte() <= -1)
                 {
                     abort = true;
+                    checkThread.CancelAsync();
                     break;
                 }
             }
@@ -568,7 +585,13 @@ namespace Minion.Forms
         #endregion
 
         #region Misc variables
-        SqlConnection myConn = new SqlConnection(@"Data Source=LISW549150;Initial Catalog=Minion;Integrated Security=False;User Id=minion;Password=mdladmin123!");
+        private void ipBox_Click(object sender, EventArgs e)
+        {
+            ipBox.Items.Clear();
+            fill_ipBox();
+            ipBox.Update();
+            ipBox.Refresh();
+        }
         //SSH.ssh_test execute = new SSH.ssh_test();
         Stopwatch stopWatch = new Stopwatch();
         public delegate void InvokeDelegate();
@@ -578,8 +601,8 @@ namespace Minion.Forms
             this.TimeOfDay.Text = DateTime.Now.ToString();
         }
         SshStream ssh;
-        private void ssh_command(string type, string host, string user, string password, string command)
-        {      
+        public void ssh_command(string type, string host, string user, string password, string command)
+        {
             if (type == "list dir")
             {
                 Sftp sftp = new Sftp(host, user, password);
@@ -593,11 +616,11 @@ namespace Minion.Forms
                         {
                             if (run.Length > 10)
                             {
-                                this.runs.Items.Add(run);
+                                this.stdRunsList.Items.Add(run);
                             }
                         }
-                        count_label.Text = "Count: " + runs.Items.Count.ToString();
-                        connected();
+                        count_label.Text = "Count: " + stdRunsList.Items.Count.ToString();
+                        connected();                   
                     }
                 }
                 catch
@@ -614,7 +637,7 @@ namespace Minion.Forms
             {
                 ssh.Write(command);
                 terminalThread.CancelAsync();
-                
+
             }
             else
             {
@@ -637,24 +660,18 @@ namespace Minion.Forms
         public delegate void TerminalDelegate(string stdout);
         public void redirectOutput(string stdout)
         {
-            this.mainTerminal.AppendText(stdout);
+            this.OutputTerminal.AppendText(stdout);
         }
         #endregion
 
         #region Misc Items
-        private void ipBox_Click(object sender, EventArgs e)
+
+        private void stdAnalysesList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ipBox.Items.Clear();
-            fill_ipBox();
-            ipBox.Update();
-            ipBox.Refresh();
-        }
-        private void runs_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (runs.SelectedIndex > -1)
+            if (stdRunsList.SelectedIndex > -1)
             {
                 Properties.Settings.Default.platform = global.ssh_type;
-                Properties.Settings.Default.run = runs.SelectedItem.ToString();
+                Properties.Settings.Default.run = stdRunsList.SelectedItem.ToString();
 
                 settings SF = new settings();
                 SF.ShowDialog();
@@ -663,12 +680,12 @@ namespace Minion.Forms
                 {
                     if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.platform))
                     {
-                        // run_cmd.Append("sequipt -p ").Append(Properties.Settings.Default.platform);
-                        run_cmd.Append("sequipt -p ").Append(Properties.Settings.Default.server_name);
+                        // run_cmd.Append("minion -p ").Append(Properties.Settings.Default.platform);
+                        run_cmd.Append("minion -p ").Append(Properties.Settings.Default.server_name);
                     }
                     if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.chemistry))
                     {
-                        run_cmd.Append(" -c ").Append(Properties.Settings.Default.chemistry).Append(" -r ").Append(Properties.Settings.Default.server_dir).Append(Properties.Settings.Default.run); ;
+                        run_cmd.Append(" -c ").Append(Properties.Settings.Default.chemistry);
                     }
                     if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.aligner))
                     {
@@ -695,15 +712,15 @@ namespace Minion.Forms
                         run_cmd.Append(" --a1 ").Append(Properties.Settings.Default.f_adapter).Append(" --a2 ").Append(Properties.Settings.Default.r_adapter);
                     }
                 }
-                
+
             }
         }
-        private void terminal_TextChanged(object sender, EventArgs e)
+        private void OutputTerminal_TextChanged(object sender, EventArgs e)
         {
-            if (mainTerminal.Text.Length > 0)
+            if (OutputTerminal.Text.Length > 0)
             {
-                mainTerminal.Select(mainTerminal.Text.Length - 1, 0);
-                mainTerminal.ScrollToCaret();
+                OutputTerminal.Select(OutputTerminal.Text.Length - 1, 0);
+                OutputTerminal.ScrollToCaret();
             }
 
         }
@@ -711,94 +728,133 @@ namespace Minion.Forms
 
         #region custom tab
 
-        private void SampleList_DragEnter(object sender, DragEventArgs e)
+        private void ctmSampleList_DragEnter(object sender, DragEventArgs e)
         {
-            
+
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
-               e.Effect = DragDropEffects.All;
-                
+                e.Effect = DragDropEffects.All;
+
             else
                 e.Effect = DragDropEffects.None;
         }
 
-        private void SampleList_DragDrop(object sender, DragEventArgs e)
+        StringBuilder singlesamps = new StringBuilder();
+        private void ctmSampleList_DragDrop(object sender, DragEventArgs e)
         {
-            label2.Visible = false;
-            button2.Enabled = true;
-            customWorkflowBtn.Enabled = true;
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            if(global.ssh_status.ToLower() == "connected")
             {
-                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop, false);
-                foreach (string file in files)
+
+                if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 {
-                    string ext = Path.GetExtension(file);
-                    if (ext == ".fastq")
+                    string[] files = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+                    foreach (string file in files)
                     {
-                        string sampleName = Path.GetFileNameWithoutExtension(file);
-                        sampleList.Rows.Add();
-                        int RowIndex = sampleList.RowCount - 2;
-                        DataGridViewRow R = sampleList.Rows[RowIndex];
-                        R.Cells["sName"].Value = sampleName;
-                        R.Cells["sDir"].Value = file;
-                    }
-                    else
-                    {
-                        MessageBox.Show(Path.GetFileName(file) + " is not a FASTQ file.", "Minion - File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        string ext = Path.GetExtension(file);
+                        string extgz = "";
+                        string filepath = file;
+                        if (ext == ".gz")
+                        {
+                            extgz = Path.GetExtension(Path.GetFileNameWithoutExtension(file));
+                        }
+                        if (ext == ".fastq")
+                        {
+                            label2.Visible = false;
+                            button2.Enabled = true;
+                            customExecuteBtn.Enabled = true;
+                            string sampleName = Path.GetFileNameWithoutExtension(file);
+                            ctmSampleList.Rows.Add();
+                            int RowIndex = ctmSampleList.RowCount - 2;
+                            DataGridViewRow R = ctmSampleList.Rows[RowIndex];
+                            R.Cells["sName"].Value = sampleName;
+                            if (global.ssh_type == "illumina")
+                            {
+                                filepath = file.Replace(@"\", "/");
+                                string[] fparray = filepath.Split(':');
+                                filepath = "/illumina/runs" + fparray[1];
+                            }
+                            R.Cells["sDir"].Value = filepath;
+                            singlesamps.Append(filepath + ',');
+                        }
+                        else if (extgz == ".fastq")
+                        {
+                            label2.Visible = false;
+                            button2.Enabled = true;
+                            customExecuteBtn.Enabled = true;
+                            string sampleName = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(file));
+                            ctmSampleList.Rows.Add();
+                            int RowIndex = ctmSampleList.RowCount - 2;
+                            DataGridViewRow R = ctmSampleList.Rows[RowIndex];
+                            R.Cells["sName"].Value = sampleName;
+                            if (global.ssh_type == "illumina")
+                            {
+                                filepath = file.Replace(@"\", "/");
+                                string[] fparray = filepath.Split(':');
+                                filepath = "/illumina/runs" + fparray[1];
+                            }
+                            R.Cells["sDir"].Value = filepath;
+                            singlesamps.Append(filepath + ',');
+                        }
+                        else
+                        {
+                            MessageBox.Show(Path.GetFileName(file) + " is not a FASTQ file.", "Minion - File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
                 }
+               
+            }
+            else
+            {
+                MessageBox.Show("You are not connected to a server, please try again.", "Minion - Connection Status Alert", MessageBoxButtons.OK, MessageBoxIcon.Hand);
             }
         }
 
         private void MinionControl_Selected(object sender, TabControlEventArgs e)
         {
-            if (this.Size != new System.Drawing.Size(742, 597))
+            if (e.TabPage == ServerTab)
             {
-                if (e.TabPage == MainTab)
-                {
-                    this.Size = new System.Drawing.Size(742, 276);
-                }
-                else if (e.TabPage == CustomTab)
-                {
-                    this.Size = new System.Drawing.Size(742, 347);
-                }
+                this.Size = new System.Drawing.Size(742, 297);
+            }
+            else if (e.TabPage == AnalysisTab)
+            {
+                this.Size = new System.Drawing.Size(742, 597);
             }
         }
         private void SampleList_MouseDown(object sender, MouseEventArgs e)
         {
-            if (sampleList.SelectedRows.Count > 0)
+            if (ctmSampleList.SelectedRows.Count > 0)
             {
-                DataGridViewRow currentRow = sampleList.SelectedRows[0];
-                if (currentRow.Cells.Count > 0) 
-                {      
-                    bool rowIsEmpty = true;    
+                DataGridViewRow currentRow = ctmSampleList.SelectedRows[0];
+                if (currentRow.Cells.Count > 0)
+                {
+                    bool rowIsEmpty = true;
 
-                    foreach(DataGridViewCell cell in currentRow.Cells)    
+                    foreach (DataGridViewCell cell in currentRow.Cells)
                     {
-                       if(cell.Value != null) 
-                       { 
-                           rowIsEmpty = false;
-                           break;
-                       }    
+                        if (cell.Value != null)
+                        {
+                            rowIsEmpty = false;
+                            break;
+                        }
                     }
 
-                   if(rowIsEmpty)
-                       MessageBox.Show("Select a non null row","Minion - Null Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                   else
-                       if (e.Button == MouseButtons.Right)
-                       {
-                           var hti = sampleList.HitTest(e.X, e.Y);
-                           sampleList.ClearSelection();
-                           sampleList.Rows[hti.RowIndex].Selected = true;
-                       }
+                    if (rowIsEmpty)
+                        MessageBox.Show("Select a non null row", "Minion - Null Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    else
+                        if (e.Button == MouseButtons.Right)
+                        {
+                            var hti = ctmSampleList.HitTest(e.X, e.Y);
+                            ctmSampleList.ClearSelection();
+                            ctmSampleList.Rows[hti.RowIndex].Selected = true;
+                        }
                 }
             }
         }
 
         private void viewInExplorerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (sampleList.SelectedRows.Count > 0)
+            if (ctmSampleList.SelectedRows.Count > 0)
             {
-                DataGridViewRow currentRow = sampleList.SelectedRows[0];
+                DataGridViewRow currentRow = ctmSampleList.SelectedRows[0];
                 if (currentRow.Cells.Count > 0)
                 {
                     bool rowIsEmpty = true;
@@ -816,8 +872,8 @@ namespace Minion.Forms
                         MessageBox.Show("Select a non null row", "Minion - Null Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     else
                     {
-                        int RowIndex = sampleList.RowCount - 2;
-                        DataGridViewRow R = sampleList.Rows[RowIndex];
+                        int RowIndex = ctmSampleList.RowCount - 2;
+                        DataGridViewRow R = ctmSampleList.Rows[RowIndex];
                         string fileToSelect = R.Cells["sDir"].Value.ToString();
 
                         if (File.Exists(fileToSelect))
@@ -825,7 +881,7 @@ namespace Minion.Forms
                             string args = string.Format(@"/select, {0}", fileToSelect);
                             ProcessStartInfo pfi = new ProcessStartInfo("Explorer.exe", args);
                             System.Diagnostics.Process.Start(pfi);
-                            sampleList.ClearSelection();
+                            ctmSampleList.ClearSelection();
                         }
                         else
                         {
@@ -838,36 +894,35 @@ namespace Minion.Forms
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (sampleList.SelectedRows.Count > 0)
+            if (ctmSampleList.SelectedRows.Count > 0)
             {
-                DataGridViewRow currentRow = sampleList.SelectedRows[0];
-                if (currentRow.Cells.Count > 0) 
-                {      
-                    bool rowIsEmpty = true;    
+                DataGridViewRow currentRow = ctmSampleList.SelectedRows[0];
+                if (currentRow.Cells.Count > 0)
+                {
+                    bool rowIsEmpty = true;
 
-                    foreach(DataGridViewCell cell in currentRow.Cells)    
+                    foreach (DataGridViewCell cell in currentRow.Cells)
                     {
-                       if(cell.Value != null) 
-                       { 
-                           rowIsEmpty = false;
-                           break;
-                       }    
+                        if (cell.Value != null)
+                        {
+                            rowIsEmpty = false;
+                            break;
+                        }
                     }
 
                     if (rowIsEmpty)
                         MessageBox.Show("Select a non null row", "Minion - Null Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     else
                     {
-                        Int32 rowToDelete = sampleList.Rows.GetFirstRow(DataGridViewElementStates.Selected);
-                        sampleList.Rows.RemoveAt(rowToDelete);
-                        sampleList.ClearSelection();
-                        if (sampleList.Rows.Count == 1)
+                        Int32 rowToDelete = ctmSampleList.Rows.GetFirstRow(DataGridViewElementStates.Selected);
+                        ctmSampleList.Rows.RemoveAt(rowToDelete);
+                        ctmSampleList.ClearSelection();
+                        if (ctmSampleList.Rows.Count == 1)
                         {
                             label2.Visible = true;
                             button2.Enabled = false;
-                            customWorkflowBtn.Enabled = false;
-                            customWorkflowBtn.Visible = true;
-                            customExecuteBtn.Visible = false;
+                            customExecuteBtn.Text = "WORKFLOW";
+                            customExecuteBtn.Enabled = false;
                         }
                     }
                 }
@@ -876,21 +931,19 @@ namespace Minion.Forms
 
         private void button2_Click(object sender, EventArgs e)
         {
-            this.sampleList.Rows.Clear();
+            singlesamps = new StringBuilder();
+            this.ctmSampleList.Rows.Clear();
             label2.Visible = true;
             button2.Enabled = false;
             Minion.Properties.Settings.Default.Reset();
             Minion.Properties.Settings.Default.Save();
-            customWorkflowBtn.Enabled = false;
-            customWorkflowBtn.Visible = true;
-            customExecuteBtn.Visible = false;
+            customExecuteBtn.Text = "WORKFLOW";
+            customExecuteBtn.Enabled = false;
         }
-        #endregion
 
         private void customWorkflowBtn_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.type = "custom";
-
             settings SF = new settings();
             SF.ShowDialog();
             run_cmd = new StringBuilder();
@@ -898,12 +951,12 @@ namespace Minion.Forms
             {
                 if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.platform))
                 {
-                    // run_cmd.Append("sequipt -p ").Append(Properties.Settings.Default.platform);
-                    run_cmd.Append("sequipt -p ").Append(Properties.Settings.Default.server_name);
+                    // run_cmd.Append("minion -p ").Append(Properties.Settings.Default.platform);
+                    run_cmd.Append("minion -p ").Append(Properties.Settings.Default.server_name);
                 }
                 if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.chemistry))
                 {
-                    run_cmd.Append(" -c ").Append(Properties.Settings.Default.chemistry).Append(" -r ").Append(Properties.Settings.Default.server_dir).Append(Properties.Settings.Default.run); ;
+                    run_cmd.Append(" -c ").Append(Properties.Settings.Default.chemistry).Append(" --ss ").Append(singlesamps.ToString(0, singlesamps.Length - 1));
                 }
                 if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.aligner))
                 {
@@ -934,9 +987,52 @@ namespace Minion.Forms
 
         private void customExecuteBtn_Click(object sender, EventArgs e)
         {
-            if (mainExecuteBtn.Text == "EXECUTE")
+            if (customExecuteBtn.Text == "WORKFLOW")
             {
-                DialogResult dialogResult = MessageBox.Show("Ready to analyze " + Properties.Settings.Default.run + "? \r\n\n" + run_cmd.ToString(), "SEQuipt - Checkpoint", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                Properties.Settings.Default.type = "custom";
+                settings SF = new settings();
+                SF.ShowDialog();
+                run_cmd = new StringBuilder();
+                if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.run))
+                {
+                    if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.platform))
+                    {
+                        // run_cmd.Append("minion -p ").Append(Properties.Settings.Default.platform);
+                        run_cmd.Append("minion -p ").Append(Properties.Settings.Default.server_name);
+                    }
+                    if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.chemistry))
+                    {
+                        run_cmd.Append(" -c ").Append(Properties.Settings.Default.chemistry).Append(" --ss ").Append(singlesamps.ToString(0, singlesamps.Length - 1));
+                    }
+                    if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.aligner))
+                    {
+                        run_cmd.Append(" -a ").Append(Properties.Settings.Default.aligner);
+                    }
+                    if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.variant_caller))
+                    {
+                        run_cmd.Append(" -v ").Append(Properties.Settings.Default.variant_caller);
+                    }
+                    if (Properties.Settings.Default.demultiplex == true)
+                    {
+                        run_cmd.Append(" -d");
+                    }
+                    if (Properties.Settings.Default.dual_index == true)
+                    {
+                        run_cmd.Append(" -m Y*,I8,I8,Y*");
+                    }
+                    else if (Properties.Settings.Default.dual_index == false)
+                    {
+                        run_cmd.Append(" -m Y*,I8,Y*");
+                    }
+                    if (Properties.Settings.Default.custom_trim == true)
+                    {
+                        run_cmd.Append(" --a1 ").Append(Properties.Settings.Default.f_adapter).Append(" --a2 ").Append(Properties.Settings.Default.r_adapter);
+                    }
+                }
+            }
+            else if (customExecuteBtn.Text == "EXECUTE")
+            {
+                DialogResult dialogResult = MessageBox.Show("Ready to analyze " + Properties.Settings.Default.run + "? \r\n\n" + run_cmd.ToString(), "Minion - Checkpoint", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dialogResult == DialogResult.Yes)
                 {
                     global.run_date = DateTime.Now.ToString();
@@ -948,9 +1044,9 @@ namespace Minion.Forms
                 }
                 else if (dialogResult == DialogResult.No) { dialogResult = DialogResult.Cancel; }
             }
-            else if (mainExecuteBtn.Text == "CANCEL")
+            else if (customExecuteBtn.Text == "CANCEL")
             {
-                DialogResult dialogResult = MessageBox.Show("Are you sure you want to cancel analysis on " + Properties.Settings.Default.run + "?", "SEQuipt - Important Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult dialogResult = MessageBox.Show("Are you sure you want to cancel analysis on " + Properties.Settings.Default.run + "?", "Minion - Important Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dialogResult == DialogResult.Yes)
                 {
                     while (true)
@@ -958,7 +1054,7 @@ namespace Minion.Forms
                         if (terminalThread.IsBusy)
                         {
                             run_cmd = new StringBuilder();
-                            run_cmd.Append("kill -9 `ps aux | grep sequipt.py | awk '{print $2}'`]");
+                            run_cmd.Append("kill -9 `ps aux | grep minion.py | awk '{print $2}'`]");
                             ssh_command("kill", global.ssh_host, global.ssh_usr, global.ssh_pass, run_cmd.ToString());
                             terminalThread.CancelAsync();
                         }
@@ -969,5 +1065,8 @@ namespace Minion.Forms
 
             }
         }
+
+        #endregion
+
     }
 }

@@ -15,6 +15,7 @@ namespace Minion.Forms
         public workflow()
         {
             InitializeComponent();
+
         }
         settings sf = (settings)Application.OpenForms["settings"];
         main mf = (main)Application.OpenForms["main"];
@@ -157,9 +158,8 @@ namespace Minion.Forms
             {
                 mf.status.Text = "Ready";
                 mf.status.ForeColor = System.Drawing.Color.Black;
-                mf.customWorkflowBtn.Enabled = false;
-                mf.customWorkflowBtn.Visible = false;
-                mf.customExecuteBtn.Visible = true;
+                mf.customExecuteBtn.Text = "EXECUTE";
+                mf.customExecuteBtn.Enabled = true;
             }
             Properties.Settings.Default.Save();
             sf.Close();
